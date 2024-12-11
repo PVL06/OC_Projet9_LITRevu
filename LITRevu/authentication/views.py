@@ -23,7 +23,7 @@ class HomePageView(View):
             )
             if user is not None:
                 login(request, user)
-                return redirect('review')
+                return redirect('flux')
             
         message = f'Identifiants invalides'
         return render(request, self.template, context={'form':form, 'message':message})
@@ -43,7 +43,7 @@ class SignUpView(View):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('review')
+            return redirect('flux')
         message = 'Invalid input'
         return render(request, self.template, context={'form': form, 'message': message})
 

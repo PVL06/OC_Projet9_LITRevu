@@ -65,18 +65,10 @@ nav ul {
     text-align: center;
 }
 
-/* page flux (home review) */
+/* page flux */
 
-.flux {
+.flux_head {
     display: flex;
-    flex-direction: column;
-    padding: 20px;
-}
-
-.review_button {
-    margin: 0 auto;
-}
-
-img {
-    width: 200px;
+    justify-content: center;
+    padding: 50px;
 }

@@ -5,10 +5,30 @@ from django.views.generic import View
 from . import forms, models
 
 class RewiewFluxView(LoginRequiredMixin, View):
-    template = 'review/review_home.html'
+    template = 'review/flux.html'
 
     def get(self, request):
-        return render(request, 'review/review_home.html')
+        return render(request, self.template)
+    
+
+class CreateTicketView(LoginRequiredMixin, View):
+    template = 'review/ticket_add.html'
+
+    def get(self, request):
+        return render(request, self.template)
+    
+
+class CreateReviewView(LoginRequiredMixin, View):
+    template = 'review/review_add.html'
+
+    def get(self, request):
+        return render(request, self.template)
+
+class PostsView(LoginRequiredMixin, View):
+    template = 'review/posts.html'
+
+    def get(self, request):
+        return render(request, self.template)
 
 
 class FollowView(LoginRequiredMixin, View):

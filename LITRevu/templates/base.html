@@ -13,10 +13,10 @@
         <ul>
             {% if user.is_authenticated %}
                 <li>
-                    <a href="{% url 'review' %}">Flux</a>
+                    <a href="{% url 'flux' %}">Flux</a>
                 </li>
                 <li>
-                    <a href="#">Posts</a>
+                    <a href="{% url 'posts' %}">Posts</a>
                 </li>
                 <li>
                     <a href="{% url 'follows' %}">Abonnement</a>
