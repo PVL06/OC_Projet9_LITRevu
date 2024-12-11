@@ -3,5 +3,14 @@
 {% block content %}
     <div>
         <h2>Vos posts</h2>
+        {% for ticket in tickets %}
+        <div class="ticket">
+            <p>Vous avez publier un ticket</p>
+            <p>{{ ticket.title }}</p>
+            <img src="{{ ticket.image.url }}" alt="">
+            <a href="{% url 'update_ticket' ticket.id %}">Modifier</a>
+            <a href="{% url 'delete_ticket' ticket.id %}">Supprimer</a>
+        </div>
+        {% endfor %}
     </div>
 {% endblock %}

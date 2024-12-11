@@ -15,8 +15,43 @@ class CreateTicketView(LoginRequiredMixin, View):
     template = 'review/ticket_add.html'
 
     def get(self, request):
-        return render(request, self.template)
+        form = forms.AddTicketForm()
+        return render(request, self.template, context={'form': form})
     
+    def post(self, request):
+        form = forms.AddTicketForm(request.POST, request.FILES)
+        if form.is_valid():
+            ticket = form.save(commit=False)
+            ticket.user = request.user
+            ticket.save()
+            return redirect('flux')
+        return render(request, self.template, context={'form': form})
+    
+
+class DeleteTicketView(LoginRequiredMixin, View):
+
+    def get(self, request, id):
+        ticket = models.Ticket.objects.get(id=id)
+        if ticket.user == request.user:
+            ticket.delete()
+        return redirect('posts')
+    
+
+class UpdateTicketView(LoginRequiredMixin, View):
+    template = 'review/ticket_update.html'
+
+    def get(self, request, id):
+        ticket = models.Ticket.objects.get(id=id)
+        form = forms.AddTicketForm(instance=ticket)
+        return render(request, self.template, context={'form': form})
+    
+    def post(self, request, id):
+        ticket = models.Ticket.objects.get(id=id)
+        form = forms.AddTicketForm(request.POST, instance=ticket)
+        if form.is_valid():
+            ticket = form.save(commit=False)
+            return redirect('posts')
+        return render(request, self.template, context={'form': form})
 
 class CreateReviewView(LoginRequiredMixin, View):
     template = 'review/review_add.html'
@@ -26,9 +61,11 @@ class CreateReviewView(LoginRequiredMixin, View):
 
 class PostsView(LoginRequiredMixin, View):
     template = 'review/posts.html'
+    ticket_class = models.Ticket
 
     def get(self, request):
-        return render(request, self.template)
+        tickets = self.ticket_class.objects.filter(user=request.user)
+        return render(request, self.template, context={'tickets': tickets})
 
 
 class FollowView(LoginRequiredMixin, View):
