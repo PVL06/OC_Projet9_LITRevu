@@ -9,6 +9,12 @@ class AddTicketForm(forms.ModelForm):
         fields = ['title', 'description', 'image']
 
 
+class AddReviewFrom(forms.ModelForm):
+    class Meta:
+        model = models.Review
+        fields = ['rating', 'headline', 'body']
+
+
 class FollowForm(forms.ModelForm):
     class Meta:
         model = models.UserFollows

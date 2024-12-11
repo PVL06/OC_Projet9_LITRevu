@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import View
 
@@ -13,9 +13,10 @@ class RewiewFluxView(LoginRequiredMixin, View):
 
 class CreateTicketView(LoginRequiredMixin, View):
     template = 'review/ticket_add.html'
+    form_class = forms.AddTicketForm
 
     def get(self, request):
-        form = forms.AddTicketForm()
+        form = self.form_class()
         return render(request, self.template, context={'form': form})
     
     def post(self, request):
@@ -29,9 +30,8 @@ class CreateTicketView(LoginRequiredMixin, View):
     
 
 class DeleteTicketView(LoginRequiredMixin, View):
-
     def get(self, request, id):
-        ticket = models.Ticket.objects.get(id=id)
+        ticket = get_object_or_404(models.Ticket, id=id)
         if ticket.user == request.user:
             ticket.delete()
         return redirect('posts')
@@ -39,33 +39,73 @@ class DeleteTicketView(LoginRequiredMixin, View):
 
 class UpdateTicketView(LoginRequiredMixin, View):
     template = 'review/ticket_update.html'
+    form_class = forms.AddTicketForm
 
     def get(self, request, id):
-        ticket = models.Ticket.objects.get(id=id)
-        form = forms.AddTicketForm(instance=ticket)
+        ticket = get_object_or_404(models.Ticket, id=id)
+        form = self.form_class(instance=ticket)
         return render(request, self.template, context={'form': form})
     
     def post(self, request, id):
-        ticket = models.Ticket.objects.get(id=id)
-        form = forms.AddTicketForm(request.POST, instance=ticket)
+        ticket = get_object_or_404(models.Ticket, id=id)
+        form = self.form_class(request.POST, request.FILES, instance=ticket)
         if form.is_valid():
-            ticket = form.save(commit=False)
+            ticket = form.save()
             return redirect('posts')
         return render(request, self.template, context={'form': form})
 
 class CreateReviewView(LoginRequiredMixin, View):
     template = 'review/review_add.html'
+    ticket_form_class = forms.AddTicketForm
+    review_form_class = forms.AddReviewFrom
 
     def get(self, request):
-        return render(request, self.template)
+        ticket_form = self.ticket_form_class()
+        review_form = self.review_form_class()
+        context = {
+            'ticket_form': ticket_form,
+            'review_form': review_form
+        }
+        return render(request, self.template, context=context)
+    
+    def post(self, request):
+        ticket_form = self.ticket_form_class(request.POST, request.FILES)
+        review_form = self.review_form_class(request.POST)
+        if all([ticket_form.is_valid(), review_form.is_valid()]):
+            ticket = ticket_form.save(commit=False)
+            review = review_form.save(commit=False)
+            review.ticket = ticket
+            ticket.user = request.user
+            review.user = request.user
+            ticket.save()
+            review.save()
+            return redirect('flux')
+        context = {
+            'ticket_form': ticket_form,
+            'review_form': review_form
+        }
+        return render(request, self.template, context=context)
+    
+
+class DeleteReviewView(LoginRequiredMixin, View):
+    def get(self, request, id):
+        review = models.Review.objects.get(id=id)
+        review.delete()
+        return redirect('posts')
 
 class PostsView(LoginRequiredMixin, View):
     template = 'review/posts.html'
     ticket_class = models.Ticket
+    review_class = models.Review
 
     def get(self, request):
         tickets = self.ticket_class.objects.filter(user=request.user)
-        return render(request, self.template, context={'tickets': tickets})
+        reviews = self.review_class.objects.filter(user=request.user)
+        context = {
+            'tickets': tickets,
+            'reviews': reviews
+        }
+        return render(request, self.template, context=context)
 
 
 class FollowView(LoginRequiredMixin, View):
