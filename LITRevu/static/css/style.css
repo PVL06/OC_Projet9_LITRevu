@@ -55,6 +55,8 @@ nav ul {
 .flex_ctn_center {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     height: 100vh;
 }
 
