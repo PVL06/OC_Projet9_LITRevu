@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LITReview</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <nav>
+        <h1>LITReview</h1>
+        <p>{{ user }}</p>
+        <ul>
+            {% if user.is_authenticated %}
+                <li>
+                    <a href="{% url 'review' %}">Flux</a>
+                </li>
+                <li>
+                    <a href="#">Posts</a>
+                </li>
+                <li>
+                    <a href="#">Abonnement</a>
+                </li>
+                <li>
+                    <a href="{% url 'logout' %}">Se déconnecter</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    <section class="main">
+        {% block content %}{% endblock %}
+    </section>
+</body>
+</html>
