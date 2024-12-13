@@ -72,3 +72,14 @@ nav ul {
     justify-content: center;
     padding: 50px;
 }
+
+.cadre {
+    border: 1px solid black;
+    margin: 10px;
+    padding: 20px;
+}
+
+.ticket {
+    margin: 10px;
+    border: 1px solid green;
+}

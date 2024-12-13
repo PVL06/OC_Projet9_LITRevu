@@ -3,25 +3,17 @@
 {% block content %}
     <div>
         <h2>Vos posts</h2>
-        {% for ticket in tickets %}
-        <div class="ticket">
-            <p>Vous avez publier un ticket</p>
-            <p>{{ ticket.title }}</p>
-            <img src="{{ ticket.image.url }}" alt="">
-            <a href="{% url 'update_ticket' ticket.id %}">Modifier</a>
-            <a href="{% url 'delete_ticket' ticket.id %}">Supprimer</a>
-        </div>
-        {% endfor %}
-        {% for review in reviews %}
-        <div>
-            <p>Vous avez publier une critique</p>
-            <p>{{ review.headline }}</p>
-            <p>{{ review.rating }}</p>
-            <p>{{ review.body }}</p>
-            <p>{{ review.ticket.title }}</p>
-            <img src="{{ review.ticket.image.url }}" alt="">
-            <a href="{% url 'delete_review' review.id %}">Supprimer</a>
-        </div>
+        {% for post in posts %}
+            <div class="cadre">
+                {% if post.content_type == 'TICKET' %}
+                {% include 'review/partials/ticket_snippet.html' %}
+                {% elif post.content_type == 'REVIEW' %}
+                {% include 'review/partials/review_snippet.html' %}
+                {% endif %}
+                <a href="{% url 'update' content_type=post.content_type|lower id=post.id %}">Modifier</a>
+                <a href="{% url 'delete' content_type=post.content_type|lower id=post.id %}">Supprimer</a>
+            </div>
+
         {% endfor %}
     </div>
 {% endblock %}

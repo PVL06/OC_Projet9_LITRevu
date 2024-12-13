@@ -1,0 +1,13 @@
+<div class="head_left">
+    {% if post.user == user %}
+    <p>Vous avez publier un ticket</p>
+    {% else %}
+    <p>Ticket - {{ post.user }}</p>
+    {% endif %}
+    <p>{{ post.title }}</p>
+    <p>{{ post.description }}</p>
+</div>
+<p>{{ post.time_created }}</p>
+{% if post.image %}
+    <img src="{{ post.image.url }}" alt="">
+{% endif %}

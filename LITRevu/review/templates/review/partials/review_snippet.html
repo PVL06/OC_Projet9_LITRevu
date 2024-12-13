@@ -1,0 +1,15 @@
+<div class="head_left">
+    <p>Vous avez publier une critique</p>
+    <p>{{ post.headline }} - rating -> {{ post.rating }}</p>
+    <p>{{ post.body }}</p>
+</div>
+<p>{{ post.time_created }}</p>
+<div class="ticket">
+    <p>Ticket - Vous</p>
+    <p>{{ post.ticket.title }}</p>
+    <p>{{ post.ticket.time_created }}</p>
+    <p>{{ post.ticket.description }}</p>
+    {% if post.ticket.image %}
+        <img src="{{ post.ticket.image.url }}" alt="">
+    {% endif %}
+</div>

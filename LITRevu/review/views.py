@@ -1,26 +1,29 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import View
+from django.db.models import CharField, Value
+from itertools import chain
 
 from . import forms, models
 
-class RewiewFluxView(LoginRequiredMixin, View):
+
+class FluxView(LoginRequiredMixin, View):
     template = 'review/flux.html'
 
     def get(self, request):
         return render(request, self.template)
     
 
-class CreateTicketView(LoginRequiredMixin, View):
+class CreateTicketView(LoginRequiredMixin, View): 
     template = 'review/ticket_add.html'
-    form_class = forms.AddTicketForm
+    form_class = forms.TicketForm
 
     def get(self, request):
         form = self.form_class()
         return render(request, self.template, context={'form': form})
     
     def post(self, request):
-        form = forms.AddTicketForm(request.POST, request.FILES)
+        form = forms.TicketForm(request.POST, request.FILES)
         if form.is_valid():
             ticket = form.save(commit=False)
             ticket.user = request.user
@@ -29,35 +32,10 @@ class CreateTicketView(LoginRequiredMixin, View):
         return render(request, self.template, context={'form': form})
     
 
-class DeleteTicketView(LoginRequiredMixin, View):
-    def get(self, request, id):
-        ticket = get_object_or_404(models.Ticket, id=id)
-        if ticket.user == request.user:
-            ticket.delete()
-        return redirect('posts')
-    
-
-class UpdateTicketView(LoginRequiredMixin, View):
-    template = 'review/ticket_update.html'
-    form_class = forms.AddTicketForm
-
-    def get(self, request, id):
-        ticket = get_object_or_404(models.Ticket, id=id)
-        form = self.form_class(instance=ticket)
-        return render(request, self.template, context={'form': form})
-    
-    def post(self, request, id):
-        ticket = get_object_or_404(models.Ticket, id=id)
-        form = self.form_class(request.POST, request.FILES, instance=ticket)
-        if form.is_valid():
-            ticket = form.save()
-            return redirect('posts')
-        return render(request, self.template, context={'form': form})
-
-class CreateReviewView(LoginRequiredMixin, View):
-    template = 'review/review_add.html'
-    ticket_form_class = forms.AddTicketForm
-    review_form_class = forms.AddReviewFrom
+class CreateCompleteReviewView(LoginRequiredMixin, View):
+    template = 'review/review_complete_add.html'
+    ticket_form_class = forms.TicketForm
+    review_form_class = forms.ReviewFrom
 
     def get(self, request):
         ticket_form = self.ticket_form_class()
@@ -75,8 +53,7 @@ class CreateReviewView(LoginRequiredMixin, View):
             ticket = ticket_form.save(commit=False)
             review = review_form.save(commit=False)
             review.ticket = ticket
-            ticket.user = request.user
-            review.user = request.user
+            ticket.user = review.user = request.user
             ticket.save()
             review.save()
             return redirect('flux')
@@ -87,11 +64,65 @@ class CreateReviewView(LoginRequiredMixin, View):
         return render(request, self.template, context=context)
     
 
-class DeleteReviewView(LoginRequiredMixin, View):
-    def get(self, request, id):
-        review = models.Review.objects.get(id=id)
-        review.delete()
+class ResponseToTicketView(LoginRequiredMixin, View):
+    pass
+    
+
+class UpdateContentView(LoginRequiredMixin, View):
+    ticket_template = 'review/ticket_update.html'
+    ticket_form_class = forms.TicketForm
+    review_template = 'review/review_update.html'
+    review_form_class = forms.ReviewFrom
+    
+    def get(self, request, content_type, id):
+        
+        if content_type == 'ticket':
+            ticket = get_object_or_404(models.Ticket, id=id)
+            form = self.ticket_form_class(instance=ticket)
+
+        elif content_type == 'review':
+            review = get_object_or_404(models.Review, id=id)
+            form = self.review_form_class(instance=review)
+
+        else:
+            pass # 404
+
+        return render(request, self.review_template, context={'form': form})
+
+    def post(self, request, content_type, id):
+
+        if content_type == 'ticket':
+            ticket = get_object_or_404(models.Ticket, id=id)
+            form = self.ticket_form_class(request.POST, request.FILES, instance=ticket)
+            if form.is_valid():
+                ticket = form.save()
+                return redirect('posts')
+
+        elif content_type == 'review':
+            review = get_object_or_404(models.Review, id=id)
+            form = self.review_form_class(request.POST, instance=review)
+            if form.is_valid():
+                review = form.save()
+                return redirect('posts')
+
+        return render(request, self.ticket_template, context={'form': form})
+    
+    
+class DeleteContentView(LoginRequiredMixin, View):
+    def get(self, request, content_type, id):
+
+        if content_type == 'ticket':
+            ticket = get_object_or_404(models.Ticket, id=id)
+            if ticket.user == request.user:
+                ticket.delete()
+
+        elif content_type == 'review':
+            review = get_object_or_404(models.Review, id=id)
+            if review.user == request.user:
+                review.delete()
+
         return redirect('posts')
+
 
 class PostsView(LoginRequiredMixin, View):
     template = 'review/posts.html'
@@ -100,12 +131,15 @@ class PostsView(LoginRequiredMixin, View):
 
     def get(self, request):
         tickets = self.ticket_class.objects.filter(user=request.user)
+        tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
         reviews = self.review_class.objects.filter(user=request.user)
-        context = {
-            'tickets': tickets,
-            'reviews': reviews
-        }
-        return render(request, self.template, context=context)
+        reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
+        posts = sorted(
+            chain(tickets, reviews),
+            key=lambda post: post.time_created,
+            reverse=True
+        )
+        return render(request, self.template, context={'posts': posts})
 
 
 class FollowView(LoginRequiredMixin, View):
