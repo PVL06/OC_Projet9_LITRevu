@@ -5,4 +5,15 @@
         <a href="{% url 'create_ticket' %}">Demander une critique</a>
         <a href="{% url 'create_review' %}">Créer une critique</a>
     </div>
+    <div>
+        {% for post in posts %}
+            <div class="cadre">
+                {% if post.content_type == 'TICKET' %}
+                {% include 'review/partials/ticket_snippet.html' %}
+                {% elif post.content_type == 'REVIEW' %}
+                {% include 'review/partials/review_snippet.html' %}
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

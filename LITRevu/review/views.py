@@ -3,15 +3,50 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import View
 from django.db.models import CharField, Value
 from itertools import chain
+from django.db.models import Q
 
 from . import forms, models
+from authentication.models import User
 
 
 class FluxView(LoginRequiredMixin, View):
     template = 'review/flux.html'
+    ticket_class = models.Ticket
+    review_class = models.Review
 
     def get(self, request):
-        return render(request, self.template)
+        users_viewable = User.objects.filter(
+            Q(follow_user__user = request.user) |
+            Q(pk=request.user.pk)
+        )
+        tickets = self.ticket_class.objects.filter(user__in=users_viewable)
+        tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
+        reviews = self.review_class.objects.filter(user__in=users_viewable)
+        reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
+        posts = sorted(
+            chain(tickets, reviews),
+            key=lambda post: post.time_created,
+            reverse=True
+        )
+        return render(request, self.template, context={'posts': posts})
+    
+
+class PostsView(LoginRequiredMixin, View):
+    template = 'review/posts.html'
+    ticket_class = models.Ticket
+    review_class = models.Review
+
+    def get(self, request):
+        tickets = self.ticket_class.objects.filter(user=request.user)
+        tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
+        reviews = self.review_class.objects.filter(user=request.user)
+        reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
+        posts = sorted(
+            chain(tickets, reviews),
+            key=lambda post: post.time_created,
+            reverse=True
+        )
+        return render(request, self.template, context={'posts': posts})
     
 
 class CreateTicketView(LoginRequiredMixin, View): 
@@ -75,71 +110,44 @@ class UpdateContentView(LoginRequiredMixin, View):
     review_form_class = forms.ReviewFrom
     
     def get(self, request, content_type, id):
-        
         if content_type == 'ticket':
             ticket = get_object_or_404(models.Ticket, id=id)
             form = self.ticket_form_class(instance=ticket)
-
         elif content_type == 'review':
             review = get_object_or_404(models.Review, id=id)
             form = self.review_form_class(instance=review)
-
         else:
             pass # 404
-
         return render(request, self.review_template, context={'form': form})
 
     def post(self, request, content_type, id):
-
         if content_type == 'ticket':
             ticket = get_object_or_404(models.Ticket, id=id)
             form = self.ticket_form_class(request.POST, request.FILES, instance=ticket)
             if form.is_valid():
                 ticket = form.save()
                 return redirect('posts')
-
         elif content_type == 'review':
             review = get_object_or_404(models.Review, id=id)
             form = self.review_form_class(request.POST, instance=review)
             if form.is_valid():
                 review = form.save()
                 return redirect('posts')
-
         return render(request, self.ticket_template, context={'form': form})
     
-    
-class DeleteContentView(LoginRequiredMixin, View):
-    def get(self, request, content_type, id):
 
+class DeleteContentView(LoginRequiredMixin, View):
+
+    def get(self, request, content_type, id):
         if content_type == 'ticket':
             ticket = get_object_or_404(models.Ticket, id=id)
             if ticket.user == request.user:
                 ticket.delete()
-
         elif content_type == 'review':
             review = get_object_or_404(models.Review, id=id)
             if review.user == request.user:
                 review.delete()
-
         return redirect('posts')
-
-
-class PostsView(LoginRequiredMixin, View):
-    template = 'review/posts.html'
-    ticket_class = models.Ticket
-    review_class = models.Review
-
-    def get(self, request):
-        tickets = self.ticket_class.objects.filter(user=request.user)
-        tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
-        reviews = self.review_class.objects.filter(user=request.user)
-        reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
-        posts = sorted(
-            chain(tickets, reviews),
-            key=lambda post: post.time_created,
-            reverse=True
-        )
-        return render(request, self.template, context={'posts': posts})
 
 
 class FollowView(LoginRequiredMixin, View):
@@ -178,3 +186,4 @@ class UnfollowView(LoginRequiredMixin, View):
         follow = models.UserFollows.objects.get(followed_user=id, user=request.user)
         follow.delete()
         return redirect('follows')
+    

@@ -13,7 +13,6 @@
                 <a href="{% url 'update' content_type=post.content_type|lower id=post.id %}">Modifier</a>
                 <a href="{% url 'delete' content_type=post.content_type|lower id=post.id %}">Supprimer</a>
             </div>
-
         {% endfor %}
     </div>
 {% endblock %}
