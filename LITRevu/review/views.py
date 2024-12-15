@@ -4,6 +4,9 @@ from django.views.generic import View
 from django.db.models import CharField, Value
 from itertools import chain
 from django.db.models import Q
+from django.conf import settings
+from pathlib import Path
+
 
 from . import forms, models
 from authentication.models import User
@@ -119,15 +122,20 @@ class UpdateContentView(LoginRequiredMixin, View):
             form = self.review_form_class(instance=review)
             return render(request, self.review_template, context={'form': form, 'post': review.ticket})
         else:
-            pass # 404
+            pass # return 404
 
     def post(self, request, content_type, id):
         if content_type == 'ticket':
             ticket = get_object_or_404(models.Ticket, id=id)
+            last_image = str(ticket.image)
             form = self.ticket_form_class(request.POST, request.FILES, instance=ticket)
             if form.is_valid():
                 ticket = form.save()
+                if last_image and not ticket.image:
+                    path = Path(settings.MEDIA_ROOT / last_image)
+                    path.unlink()
                 return redirect('posts')
+            
         elif content_type == 'review':
             review = get_object_or_404(models.Review, id=id)
             form = self.review_form_class(request.POST, instance=review)
