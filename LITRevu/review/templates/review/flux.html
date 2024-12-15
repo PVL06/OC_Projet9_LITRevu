@@ -9,9 +9,9 @@
         {% for post in posts %}
             <div class="cadre">
                 {% if post.content_type == 'TICKET' %}
-                {% include 'review/partials/ticket_snippet.html' %}
+                    {% include 'review/partials/ticket_snippet.html' %}
                 {% elif post.content_type == 'REVIEW' %}
-                {% include 'review/partials/review_snippet.html' %}
+                    {% include 'review/partials/review_snippet.html' %}
                 {% endif %}
             </div>
         {% endfor %}

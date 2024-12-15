@@ -13,8 +13,9 @@ class Ticket(models.Model):
     time_created = models.DateTimeField(auto_now_add=True)
 
     def delete(self, *args, **kwargs):
-        path = Path(settings.MEDIA_ROOT / str(self.image))
-        path.unlink()
+        if self.image:
+            path = Path(settings.MEDIA_ROOT / str(self.image))
+            path.unlink()
         super().delete(*args, **kwargs)
 
 
