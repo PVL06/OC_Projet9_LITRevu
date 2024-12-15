@@ -14,8 +14,8 @@ class Ticket(models.Model):
 
     def delete(self, *args, **kwargs):
         if self.image:
-            path = Path(settings.MEDIA_ROOT / str(self.image))
-            path.unlink()
+            image_path = Path(settings.MEDIA_ROOT / str(self.image))
+            image_path.unlink()
         super().delete(*args, **kwargs)
 
 

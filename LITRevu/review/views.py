@@ -132,8 +132,8 @@ class UpdateContentView(LoginRequiredMixin, View):
             if form.is_valid():
                 ticket = form.save()
                 if last_image and not ticket.image:
-                    path = Path(settings.MEDIA_ROOT / last_image)
-                    path.unlink()
+                    image_path = Path(settings.MEDIA_ROOT / last_image)
+                    image_path.unlink()
                 return redirect('posts')
             
         elif content_type == 'review':
