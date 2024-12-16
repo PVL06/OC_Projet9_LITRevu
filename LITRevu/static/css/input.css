@@ -3,9 +3,19 @@
 @tailwind utilities;
 
 input {
-    min-width: 300px;
-    margin: 10px;
+    text-align: center;
+    width: 350px;
+    margin: 10px 0;
     padding: 10px;
+}
+
+a, button {
+    margin: 0;
+    padding: 0;
+}
+
+form ul, label {
+    display: none;
 }
 
 .error {

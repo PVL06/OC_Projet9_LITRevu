@@ -16,4 +16,11 @@ class LoginForm(forms.Form):
 class SignUpForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
-        fields = ('username',)
+        fields = ('username', 'password1', 'password2')
+        
+    def __init__(self, *args, **kwargs):
+        super(SignUpForm, self).__init__(*args, **kwargs)
+        for field in ['username', 'password1', 'password2']:
+            self.fields[field].widget.attrs['placeholder'] = self.fields[field].label
+            self.fields[field].help_text = ''
+        

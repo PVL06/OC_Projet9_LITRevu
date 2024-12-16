@@ -1,16 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="flex bg-blue-500">
-        <div class="bg-slate-300">
-            <h2>Inscrivez-vous</h2>
-            <form action="" method="post">
-                {{ form.as_p }}
-                {% csrf_token %}
-                <a href="{% url 'home' %}">Retour</a>
-                <button type="submit">S'inscrire</button>
-            </form>
-            <p>{{ message }}</p>
+    <h2 class="text-2xl p-10 text-center">Inscrivez-vous</h2>
+    <ul class="error h-24 text-center m-4">
+        {% if form.errors %}
+            {% for field in form %}     
+                {% for error in field.errors %}
+                    {% if field.label == 'Username' %}
+                        <li>Ce nom d'utilisateur est déjà utilisé</li>
+                    {% else %}
+                        <li>{{ error }}</li>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+    </ul>
+    <form action="" method="post" class="flex flex-col items-center w-[350px]">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <div class="flex justify-between m-4 w-full">
+            <a href="{% url 'home' %}" class="px-11 py-2 bg-cyan-400 rounded-lg hover:bg-cyan-500 text-center">Retour</a>
+            <button type="submit" class="px-10 py-2 bg-cyan-400 rounded-lg hover:bg-cyan-500">S'inscrire</button>
         </div>
-    </div>
+    </form>
 {% endblock %}

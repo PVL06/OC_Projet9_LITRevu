@@ -35,8 +35,7 @@ class SignUpView(View):
 
     def get(self, request):
         form = self.form_class()
-        message = ''
-        return render(request, self.template, context={'form': form, 'message': message})
+        return render(request, self.template, context={'form': form})
     
     def post(self, request):
         form = self.form_class(request.POST)
@@ -44,8 +43,7 @@ class SignUpView(View):
             user = form.save()
             login(request, user)
             return redirect('flux')
-        message = 'Invalid input'
-        return render(request, self.template, context={'form': form, 'message': message})
+        return render(request, self.template, context={'form': form})
 
 
 class LogoutView(View):

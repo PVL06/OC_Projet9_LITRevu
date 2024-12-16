@@ -6,8 +6,8 @@
         <h2 class="text-2xl text-center w-1/2">Connectez-vous</h2>
     </div>
     <div class="flex w-full text-center p-4">
-        <div class="w-1/2">
-            <a href="{% url 'sign_up' %}" class="px-8 py-1 bg-cyan-400 rounded-lg hover:bg-cyan-500">S'inscrire</a>
+        <div class="w-1/2 mt-4">
+            <a href="{% url 'sign_up' %}" class="px-11 py-2 bg-cyan-400 rounded-lg hover:bg-cyan-500">S'inscrire</a>
         </div>
         
         <div class="w-1/2 items-center">
@@ -15,7 +15,7 @@
             <form action="" method="post" class="">
                 {{ form.as_p }}
                 {% csrf_token %}
-                <button type="submit" class="px-8 py-1 m-8 bg-cyan-400 rounded-lg hover:bg-cyan-500">Se connecter</button>
+                <button type="submit" class="px-8 py-2 m-8 bg-cyan-400 rounded-lg hover:bg-cyan-500">Se connecter</button>
             </form>
         </div>
     </div>
