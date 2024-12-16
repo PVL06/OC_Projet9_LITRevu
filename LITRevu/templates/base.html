@@ -4,31 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LITReview</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/output.css">
 </head>
-<body>
-    <nav>
-        <h1>LITReview</h1>
-        <p>{{ user }}</p>
-        <ul>
+<body class="bg-slate-300">
+    <nav class="flex bg-cyan-950 w-full justify-center h-16" >
+        <div class="flex justify-between items-center xl:w-2/3 lg:w-11/12 text-cyan-100">
+            <h1 class="text-3xl">LITReview</h1>
             {% if user.is_authenticated %}
+            <p>{{ user }}</p>
+            <ul class="flex gap-4">
                 <li>
-                    <a href="{% url 'flux' %}">Flux</a>
+                    <a href="{% url 'flux' %}" class="px-2 hover:text-cyan-400">Flux</a>
                 </li>
                 <li>
-                    <a href="{% url 'posts' %}">Posts</a>
+                    <a href="{% url 'posts' %}" class="px-2 hover:text-cyan-400">Posts</a>
                 </li>
                 <li>
-                    <a href="{% url 'follows' %}">Abonnement</a>
+                    <a href="{% url 'follows' %}" class="px-2 hover:text-cyan-400">Abonnement</a>
                 </li>
                 <li>
-                    <a href="{% url 'logout' %}">Se déconnecter</a>
+                    <a href="{% url 'logout' %}" class="px-2 hover:text-cyan-400">Se déconnecter</a>
                 </li>
+            </ul>
             {% endif %}
-        </ul>
+        </div>
     </nav>
-    <section class="main">
-        {% block content %}{% endblock %}
+    <section class="flex justify-center w-full">
+        <div class="flex flex-col items-center xl:w-2/3 lg:w-11/12">
+            {% block content %}{% endblock %}
+        </div>
     </section>
 </body>
 </html>

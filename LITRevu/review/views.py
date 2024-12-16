@@ -5,6 +5,7 @@ from django.db.models import CharField, Value
 from itertools import chain
 from django.db.models import Q
 from django.conf import settings
+from django.contrib import messages
 from pathlib import Path
 
 
@@ -31,6 +32,7 @@ class FluxView(LoginRequiredMixin, View):
             key=lambda post: post.time_created,
             reverse=True
         )
+        messages.success(request, 'test')
         return render(request, self.template, context={'posts': posts})
     
 

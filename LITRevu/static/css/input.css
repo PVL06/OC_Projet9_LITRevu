@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input {
+    min-width: 300px;
+    margin: 10px;
+    padding: 10px;
+}
+
+.error {
+    color: red;
+}
