@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/* General form style */
+
 input {
     text-align: center;
     width: 350px;
@@ -9,13 +11,55 @@ input {
     padding: 10px;
 }
 
-form ul, label {
+form ul {
+    display: none;
+}
+
+.label-none label {
     display: none;
 }
 
 .error {
     color: red;
 }
+
+.form-post {
+    display: flex;
+    flex-direction: column;
+    color: #083344;
+}
+
+.form-post div {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.form-post input, textarea {
+    margin: 10px 0;
+    text-align: center;
+    width: 600px;
+    resize: none;
+}
+
+/* Rating radio box style */
+
+#id_rating {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+#id_rating label {
+    display: flex;
+    align-items: center;
+    width: 50px;
+}
+
+input[type="radio"] {
+    height: 15px;
+}
+
+/* Follow page style */
 
 #follower-form {
     display: flex;
@@ -29,4 +73,14 @@ select {
     margin: 0.5rem;
     border-radius: 0.75rem;
     background-color: #cffafe;
+}
+
+/* images */
+
+#id_image {
+    padding: 20px;
+}
+
+.modify-ticket div:nth-child(3) {
+    display: none;
 }

@@ -2,8 +2,8 @@
 
 {% block content %}
     <div class="flex w-full h-28 items-center">
-        <h2 class="text-2xl text-center w-1/2">Inscrivez-vous maintenant</h2>
-        <h2 class="text-2xl text-center w-1/2">Connectez-vous</h2>
+        <h2 class="text-2xl text-center text-cyan-100 font-semibold w-1/2">Inscrivez-vous maintenant</h2>
+        <h2 class="text-2xl text-center text-cyan-100 font-semibold w-1/2">Connectez-vous</h2>
     </div>
     <div class="flex w-full text-center p-4">
         <div class="w-1/2 mt-4">
@@ -12,7 +12,7 @@
         
         <div class="w-1/2 items-center">
             <p class="error">{{ message }}</p>
-            <form action="" method="post" class="">
+            <form action="" method="post" class="label-none">
                 {{ form.as_p }}
                 {% csrf_token %}
                 <button type="submit" class="px-8 py-2 m-8 bg-cyan-400 rounded-lg hover:bg-cyan-500">Se connecter</button>

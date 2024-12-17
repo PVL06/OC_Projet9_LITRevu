@@ -1,12 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div>
-        <h2>Modifier un ticket</h2>
-        <form action="" method="post" enctype="multipart/form-data">
-            {{ form.as_p }}
-            {% csrf_token %}
-            <button type="submit">Modifier</button>
-        </form>
+    <div class="flex items-center w-full h-40">
+        <h2 class="text-2xl text-cyan-100 font-semibold">Modifier votre ticket</h2>
     </div>
+    <form action="" method="post" enctype="multipart/form-data" class="form-post items-center rounded-xl p-6 bg-cyan-100 text-cyan-950" id="modify-ticket">
+        <div class="modify-ticket">
+            {{ form }}
+        </div>
+        <div class="flex flex-col">
+            <p class="mb-3">Image :</p>
+            <img src="{{ img.url }}" alt="">
+            {{ form.image }}
+            {% csrf_token %}
+        </div>
+        <button type="submit" class="px-8 py-1 bg-cyan-400 rounded-lg hover:bg-cyan-500">Modifier</button>
+    </form>
 {% endblock %}

@@ -117,8 +117,10 @@ class UpdateContentView(LoginRequiredMixin, View):
     def get(self, request, content_type, id):
         if content_type == 'ticket':
             ticket = get_object_or_404(models.Ticket, id=id)
+            ticket_img = ticket.image if ticket.image else ''
+            ticket.image = ''
             form = self.ticket_form_class(instance=ticket)
-            return render(request, self.ticket_template, context={'form': form})
+            return render(request, self.ticket_template, context={'form': form, 'img': ticket_img})
         elif content_type == 'review':
             review = get_object_or_404(models.Review, id=id)
             form = self.review_form_class(instance=review)
