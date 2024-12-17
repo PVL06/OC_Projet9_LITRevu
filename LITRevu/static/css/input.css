@@ -81,6 +81,12 @@ select {
     padding: 20px;
 }
 
+/* hidden django html */
+
 .modify-ticket div:nth-child(3) {
+    display: none;
+}
+
+#follower-form label {
     display: none;
 }

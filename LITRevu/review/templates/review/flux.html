@@ -1,19 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
     <div class="flex items-center justify-around h-40 w-full">
-        <a href="{% url 'create_ticket' %}" class="px-11 py-2 bg-cyan-400 rounded-lg hover:bg-cyan-500">Demander une critique</a>
-        <a href="{% url 'create_review' %}" class="px-11 py-2 bg-cyan-400 rounded-lg hover:bg-cyan-500">Créer une critique</a>
+        <a href="{% url 'create_ticket' %}"
+        class="px-11 py-2 bg-cyan-400 rounded-lg hover:bg-cyan-500">
+        Demander une critique
+        </a>
+        <a href="{% url 'create_review' %}"
+        class="px-11 py-2 bg-cyan-400 rounded-lg hover:bg-cyan-500">
+        Créer une critique
+        </a>
     </div>
+
     <div class="flex flex-col gap-4 w-full">
         {% for post in posts %}
-            <div class="bg-cyan-100 rounded-xl p-4">
-                {% if post.content_type == 'TICKET' %}
+            {% if post.content_type == 'TICKET' %}
+                <div class="p-4 rounded-xl bg-cyan-200">
+                    {% if post.user == user %}
+                        <p>Vous avez demandé une critique</p>
+                    {% else %}
+                        <p>{{ post.user }} a demandé une critique</p>
+                    {% endif %}
                     {% include 'review/partials/ticket_snippet.html' %}
-                {% elif post.content_type == 'REVIEW' %}
-                    {% include 'review/partials/review_snippet.html' %}
-                {% endif %}
-            </div>
+                </div>
+            {% elif post.content_type == 'REVIEW' %}
+                <div class="bg-cyan-100 rounded-xl p-4">
+                {% include 'review/partials/review_snippet.html' %}
+                </div>
+            {% endif %}
         {% endfor %}
     </div>
+    
 {% endblock %}

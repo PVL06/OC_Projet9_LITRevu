@@ -6,15 +6,24 @@
     </div>
     <div flex class="flex flex-col gap-4 w-full">
         {% for post in posts %}
-            <div class="bg-cyan-100 rounded-xl p-4">
-                {% if post.content_type == 'TICKET' %}
-                {% include 'review/partials/ticket_snippet.html' %}
-                {% elif post.content_type == 'REVIEW' %}
-                {% include 'review/partials/review_snippet.html' %}
-                {% endif %}
-                <a href="{% url 'update' content_type=post.content_type|lower id=post.id %}">Modifier</a>
-                <a href="{% url 'delete' content_type=post.content_type|lower id=post.id %}">Supprimer</a>
-            </div>
+            {% if post.content_type == 'TICKET' %}
+                <div class="p-4 rounded-xl bg-cyan-200">
+                    {% include 'review/partials/ticket_snippet.html' %}
+            {% elif post.content_type == 'REVIEW' %}
+                <div class="bg-cyan-100 rounded-xl p-4">
+                    {% include 'review/partials/review_snippet.html' %}
+            {% endif %}
+                    <a 
+                    href="{% url 'update' content_type=post.content_type|lower id=post.id %}"
+                    class="px-4 py-1 m-4 rounded-lg bg-cyan-400 hover:bg-cyan-500">
+                    Modifier
+                    </a>
+                    <a
+                    href="{% url 'delete' content_type=post.content_type|lower id=post.id %}"
+                    class="px-4 py-1 bg-cyan-400 rounded-lg hover:bg-cyan-500">
+                    Supprimer
+                    </a>
+                </div>
         {% endfor %}
     </div>
 {% endblock %}
