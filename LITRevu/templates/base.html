@@ -6,30 +6,32 @@
     <title>LITReview</title>
     <link rel="stylesheet" href="/static/css/output.css">
 </head>
-<body class="bg-slate-300">
-    <nav class="flex bg-cyan-950 w-full justify-center h-16" >
-        <div class="flex justify-between items-center xl:w-2/3 lg:w-11/12 text-cyan-100">
-            <h1 class="text-3xl">LITReview</h1>
-            {% if user.is_authenticated %}
-            <p>{{ user }}</p>
-            <ul class="flex gap-4">
-                <li>
-                    <a href="{% url 'flux' %}" class="px-2 hover:text-cyan-400">Flux</a>
-                </li>
-                <li>
-                    <a href="{% url 'posts' %}" class="px-2 hover:text-cyan-400">Posts</a>
-                </li>
-                <li>
-                    <a href="{% url 'follows' %}" class="px-2 hover:text-cyan-400">Abonnement</a>
-                </li>
-                <li>
-                    <a href="{% url 'logout' %}" class="px-2 hover:text-cyan-400">Se déconnecter</a>
-                </li>
-            </ul>
-            {% endif %}
-        </div>
-    </nav>
-    <section class="flex justify-center w-full">
+<body class="bg-cyan-900">
+    <div class="relative">
+        <nav class="flex bg-cyan-950 w-full justify-center h-16 fixed top-0 left-0 right-0" >
+            <div class="flex justify-between items-center text-cyan-100 xl:w-2/3 lg:w-11/12">
+                <h1 class="text-3xl font-semibold">LITReview</h1>
+                {% if user.is_authenticated %}
+                <p>{{ user }}</p>
+                <ul class="flex gap-4">
+                    <li>
+                        <a href="{% url 'flux' %}" class="px-2 hover:text-cyan-400">Flux</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'posts' %}" class="px-2 hover:text-cyan-400">Posts</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'follows' %}" class="px-2 hover:text-cyan-400">Abonnement</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'logout' %}" class="px-2 hover:text-cyan-400">Se déconnecter</a>
+                    </li>
+                </ul>
+                {% endif %}
+            </div>
+        </nav>
+    </div>
+    <section class="flex justify-center w-full mt-14 text-cyan-950">
         <div class="flex flex-col items-center xl:w-2/3 lg:w-11/12 w-full">
             {% block content %}{% endblock %}
         </div>
