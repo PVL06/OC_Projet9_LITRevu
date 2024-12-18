@@ -3,31 +3,25 @@
 {% block content %}
 
     <div class="flex items-center w-full h-40">
-        <h2 class="text-2xl text-cyan-100 font-semibold">Vos posts</h2>
+        <h2>Vos posts</h2>
     </div>
 
     <div flex class="flex flex-col gap-4 w-full">
         {% for post in posts %}
 
             {% if post.content_type == 'TICKET' %}
-                <div class="p-4 rounded-xl bg-cyan-200">
+                <div class="card-medium p-4">
                     {% include 'review/partials/ticket_snippet.html' %}
 
             {% elif post.content_type == 'REVIEW' %}
-                <div class="p-4 rounded-xl bg-cyan-100">
+                <div class="card-light p-4">
                     {% include 'review/partials/review_snippet.html' %}
 
             {% endif %}
-                    <a 
-                    href="{% url 'update' content_type=post.content_type|lower id=post.id %}"
-                    class="px-4 py-1 m-4 rounded-lg bg-orange-400 hover:bg-orange-500">
-                    Modifier
-                    </a>
-                    <a
-                    href="{% url 'delete' content_type=post.content_type|lower id=post.id %}"
-                    class="px-4 py-1 bg-orange-400 rounded-lg hover:bg-orange-500">
-                    Supprimer
-                    </a>
+                    <a href="{% url 'update' content_type=post.content_type|lower id=post.id %}"
+                    class="btn px-4 py-1 m-4">Modifier</a>
+                    <a href="{% url 'delete' content_type=post.content_type|lower id=post.id %}"
+                    class="btn px-4 py-1">Supprimer</a>
                 </div>
 
         {% endfor %}

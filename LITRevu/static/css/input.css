@@ -2,91 +2,88 @@
 @tailwind components;
 @tailwind utilities;
 
-/* General form style */
+@layer base {
+    h1 {
+        @apply text-3xl font-semibold
+    }
 
-input {
-    text-align: center;
-    width: 350px;
-    margin: 10px 0;
-    padding: 10px;
+    h2 {
+        @apply text-2xl font-semibold text-cyan-100
+    }
+
+    select {
+        @apply w-[300px] h-12 p-2 m-1 rounded-xl
+    }
+
+    input {
+        @apply w-full p-4 my-4 text-center
+    }
+
+    input[type="radio"] {
+        @apply h-5
+    }
+
+    form ul {
+        @apply hidden
+    }
 }
 
-form ul {
-    display: none;
-}
+@layer components {
+    .nav-text {
+        @apply text-orange-400
+    }
 
-.label-none label {
-    display: none;
-}
+    .nav-hover {
+        @apply text-orange-400 hover:text-orange-500
+    }
 
-.error {
-    color: red;
-}
+    .btn {
+        @apply bg-orange-400 rounded-xl shadow-md shadow-orange-400/50 hover:bg-orange-500
+    }
 
-.form-post {
-    display: flex;
-    flex-direction: column;
-    color: #083344;
-}
+    .card-light {
+        @apply rounded-xl bg-cyan-100 shadow-md shadow-cyan-100/50
+    }
 
-.form-post div {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-}
+    .card-medium {
+        @apply rounded-xl bg-cyan-200 shadow-md shadow-cyan-200/70
+    }
 
-.form-post input, textarea {
-    margin: 10px 0;
-    text-align: center;
-    width: 600px;
-    resize: none;
-}
+    /* Form style */
 
-/* Rating radio box style */
+    .label-none label {
+        @apply hidden
+    }
 
-#id_rating {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-}
+    .error {
+        @apply text-red-500 text-lg
+    }
 
-#id_rating label {
-    display: flex;
-    align-items: center;
-    width: 50px;
-}
+    .form-post {
+        @apply flex flex-col items-center rounded-xl bg-cyan-100
+    }
 
-input[type="radio"] {
-    height: 15px;
-}
+    .form-post div {
+        @apply flex flex-col p-2
+    }
 
-/* Follow page style */
+    .form-post input, textarea {
+        @apply w-[600px] text-center resize-none
+    }
 
-#follower-form {
-    display: flex;
-    align-items: center;
-}
+    #id_rating {
+        @apply grid grid-cols-5 w-[600px]
+    }
 
-select {
-    width: 300px;
-    height: 4rem;
-    padding: 1rem;
-    margin: 0.5rem;
-    border-radius: 0.75rem;
-    background-color: #cffafe;
-}
+    #id_rating label {
+        @apply flex items-center w-6
+    }
 
-/* images */
+    #id_rating input {
+        @apply m-2
+    }
 
-#id_image {
-    padding: 20px;
-}
-
-/* hidden django html */
-
-.modify-ticket div:nth-child(3) {
-    display: none;
-}
-
-#follower-form label {
-    display: none;
+    .modify-img-none div:nth-child(3){
+        @apply hidden
+    }
 }

@@ -2,27 +2,29 @@
 
 {% block content %}
     <div class="flex items-center w-full h-40">
-        <h2 class="text-2xl text-cyan-100 font-semibold">Inscrivez-vous</h2>
+        <h2>Inscrivez-vous</h2>
     </div>
-    <ul class="error h-24 text-center m-4">
-        {% if form.errors %}
-            {% for field in form %}     
-                {% for error in field.errors %}
-                    {% if field.label == 'Username' %}
-                        <li>Ce nom d'utilisateur est déjà utilisé</li>
-                    {% else %}
-                        <li>{{ error }}</li>
-                    {% endif %}
+    <div class="w-[350px]">
+        <ul class="error h-24 text-center">
+            {% if form.errors %}
+                {% for field in form %}     
+                    {% for error in field.errors %}
+                        {% if field.label == 'Username' %}
+                            <li>Ce nom d'utilisateur est déjà utilisé</li>
+                        {% else %}
+                            <li>{{ error }}</li>
+                        {% endif %}
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
-        {% endif %}
-    </ul>
-    <form action="" method="post" class="label-none flex flex-col items-center w-[350px]">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <div class="flex justify-between m-4 w-full">
-            <a href="{% url 'home' %}" class="px-11 py-2 bg-orange-400 rounded-lg hover:bg-orange-500 text-center">Retour</a>
-            <button type="submit" class="px-10 py-2 bg-orange-400 rounded-lg hover:bg-orange-500">S'inscrire</button>
-        </div>
-    </form>
+            {% endif %}
+        </ul>
+        <form action="" method="post" class="label-none">
+            {{ form }}
+            {% csrf_token %}
+            <div class="flex justify-between my-4">
+                <a href="{% url 'home' %}" class="btn px-11 py-2">Retour</a>
+                <button type="submit" class="btn px-10 py-2">S'inscrire</button>
+            </div>
+        </form>
+    </div>
 {% endblock %}

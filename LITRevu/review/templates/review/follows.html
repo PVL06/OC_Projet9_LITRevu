@@ -1,43 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
     <div class="w-full">
-        <h2 class="flex items-center justify-center h-24 text-2xl text-cyan-100 font-semibold">
-        Suivre d'autres utilisateurs
-        </h2>
-        <form method="post" id="follower-form">
+        <h2 class="flex items-center justify-center h-24">Suivre d'autres utilisateurs</h2>
+        <form method="post" class="label-none flex items-center">
             {{ form }}
             {% csrf_token %}
-            <button type="submit"
-            class="px-4 py-1 ml-8 bg-orange-400 rounded-lg hover:bg-orange-500">
-            Envoyer
-            </button>
+            <button type="submit" class="btn px-4 py-1 ml-8">Envoyer</button>
         </form>
 
-        <h2 class="flex items-center justify-center h-24 text-2xl text-cyan-100 font-semibold">
-        Abonnements
-        </h2>
+        <h2 class="flex items-center justify-center h-24">Abonnements</h2>
         <ul class="flex flex-col justify-around items-center gap-2 p-2">
             {% for follow in followed %}
-                <li class="flex justify-between items-center w-full bg-cyan-100 p-4 h-16 rounded-xl">
+                <li class="card-light flex justify-between items-center w-full p-4 h-16">
                     <p>{{ follow.followed_user }}</p>
-                    <a href="{% url 'unfollow' id=follow.followed_user.pk %}"
-                    class="px-4 py-1 bg-orange-400 rounded-lg hover:bg-orange-500">
-                    Désabonner
-                    </a>
+                    <a href="{% url 'unfollow' id=follow.followed_user.pk %}" class="btn px-4 py-1">Désabonner</a>
                 </li>
             {% endfor %}
         </ul>
 
-        <h2 class="flex items-center justify-center h-24 text-2xl text-cyan-100 font-semibold">
-        Abonnés
-        </h2>
+        <h2 class="flex items-center justify-center h-24">Abonnés</h2>
         <ul class="flex flex-col justify-around items-center gap-2 p-2">
             {% for follower in followers %}
-                <li class="flex justify-between items-center w-full bg-cyan-100 p-4 h-16 rounded-xl">
+                <li class="card-light flex justify-between items-center w-full p-4 h-16">
                     <p class="p-2">{{ follower.user }}</p>
                 </li>
             {% endfor %}
         </ul>
     </div>
+
 {% endblock %}

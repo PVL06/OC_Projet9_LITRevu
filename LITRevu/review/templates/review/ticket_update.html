@@ -3,12 +3,11 @@
 {% block content %}
 
     <div class="flex items-center w-full h-40">
-        <h2 class="text-2xl text-cyan-100 font-semibold">Modifier votre ticket</h2>
+        <h2>Modifier votre ticket</h2>
     </div>
 
-    <form action="" method="post" enctype="multipart/form-data"
-    class="form-post items-center rounded-xl p-6 bg-cyan-100 text-cyan-950" id="modify-ticket">
-        <div class="modify-ticket">
+    <form action="" method="post" enctype="multipart/form-data" class="form-post p-6" id="modify-ticket">
+        <div class="modify-img-none">
             {{ form }}
         </div>
         <div class="flex flex-col">
@@ -17,10 +16,7 @@
             {{ form.image }}
             {% csrf_token %}
         </div>
-        <button type="submit"
-        class="px-8 py-1 bg-orange-400 rounded-lg hover:bg-orange-500">
-        Modifier
-        </button>
+        <button type="submit" class="btn px-8 py-1">Modifier</button>
     </form>
     
 {% endblock %}

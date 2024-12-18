@@ -3,17 +3,14 @@
 {% block content %}
 
     <div class="flex items-center w-full h-40">
-        <h2 class="text-2xl text-cyan-100 font-semibold">Créer un ticket</h2>
+        <h2>Créer un ticket</h2>
     </div>
 
     <form action="" method="post" enctype="multipart/form-data"
-    class="form-post items-center rounded-xl p-6 bg-cyan-100 text-cyan-950">
+    class="form-post p-6">
         {{ form }}
         {% csrf_token %}
-        <button type="submit"
-        class="px-8 py-1 bg-orange-400 rounded-lg hover:bg-orange-500">
-        Envoyer
-        </button>
+        <button type="submit" class="btn px-8 py-1">Envoyer</button>
     </form>
     
 {% endblock %}
