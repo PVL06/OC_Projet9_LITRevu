@@ -19,4 +19,10 @@
     <img src="{{ post.image.url }}" class="p-4">
     {% endif %}
 
+    {% if not post.response %}
+    <div class="flex justify-end items-center h-12 w-full">
+        <a href="{% url 'ticket_response' id=post.id %}" class="btn px-10 py-1">Créer une critique</a>
+    </div>
+    {% endif %}
+
 </div>

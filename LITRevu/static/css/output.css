@@ -780,6 +780,14 @@ form ul {
   height: 10rem;
 }
 
+.h-10 {
+  height: 2.5rem;
+}
+
+.h-12 {
+  height: 3rem;
+}
+
 .w-1\/2 {
   width: 50%;
 }
@@ -796,8 +804,16 @@ form ul {
   flex-direction: column;
 }
 
+.items-end {
+  align-items: flex-end;
+}
+
 .items-center {
   align-items: center;
+}
+
+.justify-end {
+  justify-content: flex-end;
 }
 
 .justify-center {

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="flex items-center w-full h-40">
+        <h2>Vous êtes en train de poster en réponse à</h2>
+    </div>
+
+    <div class="card-medium p-4 w-full">
+        {% include 'review/partials/ticket_snippet.html' %}
+    </div>
+
+    <div class="flex items-center w-full h-40">
+        <h2>Créer votre critique</h2>
+    </div>
+
+    <form action="" method="post" class="form-post mb-6 p-6">
+        {{ form }}
+        {% csrf_token %}
+        <button type="submit" class="btn px-8 py-1">Envoyer</button>
+    </form>
+    
+{% endblock %}

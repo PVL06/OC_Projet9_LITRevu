@@ -91,6 +91,7 @@ class CreateCompleteReviewView(LoginRequiredMixin, View):
         review_form = self.review_form_class(request.POST)
         if all([ticket_form.is_valid(), review_form.is_valid()]):
             ticket = ticket_form.save(commit=False)
+            ticket.response = True
             review = review_form.save(commit=False)
             review.ticket = ticket
             ticket.user = review.user = request.user
@@ -105,7 +106,26 @@ class CreateCompleteReviewView(LoginRequiredMixin, View):
     
 
 class ResponseToTicketView(LoginRequiredMixin, View):
-    pass
+    ticket_template = 'review/ticket_response.html'
+    review_form_class = forms.ReviewFrom
+
+    def get(self, request, id):
+        ticket = get_object_or_404(models.Ticket, id=id)
+        form = self.review_form_class()
+        return render(request, self.ticket_template, context={'form': form, 'post': ticket})
+    
+    def post(self, request, id):
+        ticket = get_object_or_404(models.Ticket, id=id)
+        form = self.review_form_class(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.ticket = ticket
+            review.user = request.user
+            review.save()
+            ticket.response = True
+            ticket.save()
+            return redirect('flux')
+        return render(request, self.ticket_template, context={'form': form, 'post': ticket})
     
 
 class UpdateContentView(LoginRequiredMixin, View):
@@ -159,6 +179,8 @@ class DeleteContentView(LoginRequiredMixin, View):
         elif content_type == 'review':
             review = get_object_or_404(models.Review, id=id)
             if review.user == request.user:
+                review.ticket.response = False
+                review.ticket.save()
                 review.delete()
         return redirect('posts')
 

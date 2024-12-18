@@ -11,6 +11,7 @@ class Ticket(models.Model):
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     image = models.ImageField(null=True, blank=True)
     time_created = models.DateTimeField(auto_now_add=True)
+    response = models.BooleanField(default=False)
 
     def delete(self, *args, **kwargs):
         if self.image:
@@ -26,6 +27,9 @@ class Review(models.Model):
     body = models.CharField(max_length=8192, blank=True)
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     time_created = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
 
 
 class UserFollows(models.Model):
