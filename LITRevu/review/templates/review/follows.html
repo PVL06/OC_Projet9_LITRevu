@@ -9,7 +9,7 @@
             {{ form }}
             {% csrf_token %}
             <button type="submit"
-            class="px-4 py-1 ml-8 bg-cyan-400 rounded-lg hover:bg-cyan-500">
+            class="px-4 py-1 ml-8 bg-orange-400 rounded-lg hover:bg-orange-500">
             Envoyer
             </button>
         </form>
@@ -22,7 +22,7 @@
                 <li class="flex justify-between items-center w-full bg-cyan-100 p-4 h-16 rounded-xl">
                     <p>{{ follow.followed_user }}</p>
                     <a href="{% url 'unfollow' id=follow.followed_user.pk %}"
-                    class="px-4 py-1 bg-cyan-400 rounded-lg hover:bg-cyan-500">
+                    class="px-4 py-1 bg-orange-400 rounded-lg hover:bg-orange-500">
                     Désabonner
                     </a>
                 </li>

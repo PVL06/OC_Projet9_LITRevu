@@ -1,15 +1,22 @@
-<div class="head_left">
-    <p>Vous avez publier une critique</p>
-    <p>{{ post.headline }} - rating -> {{ post.rating }}</p>
-    <p>{{ post.body }}</p>
-</div>
-<p>{{ post.time_created }}</p>
-<div class="ticket">
-    <p>Ticket - Vous</p>
-    <p>{{ post.ticket.title }}</p>
-    <p>{{ post.ticket.time_created }}</p>
-    <p>{{ post.ticket.description }}</p>
-    {% if post.ticket.image %}
-        <img src="{{ post.ticket.image.url }}" alt="">
-    {% endif %}
+{% load mathfilters %}
+
+<div class="flex flex-col p-4 gap-4 rounded-xl bg-cyan-100">
+
+    <div class="flex justify-between">
+        <div class="">
+            {% if post.user == user %}
+            <p>Vous avez publié une critique</p>
+            {% else %}
+            <p>{{ post.user }} a publié une critique</p>
+            {% endif %}
+            <p class="text-2xl">{{ post.headline }} - <span class="text-amber-300">{{ '★'|mul:post.rating }}</span></p>
+            <p>{{ post.body }}</p>
+        </div>
+        <p>{{ post.time_created }}</p>
+    </div>
+
+    {% with post=post.ticket %}
+        {% include 'review/partials/ticket_snippet.html' %}
+    {% endwith %}
+    
 </div>

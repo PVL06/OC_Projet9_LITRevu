@@ -1,8 +1,20 @@
-<div class="head_left">
-    <p>{{ post.title }}</p>
-    <p>{{ post.description }}</p>
-</div>
-<p>{{ post.time_created }}</p>
-{% if post.image %}
+<div class="p-4 rounded-xl bg-cyan-200">
+
+    <div class="flex justify-between">
+        <div>
+            {% if post.user == user %}
+            <p>Vous avez demandé une critique</p>
+            {% else %}
+            <p>{{ post.user }} a demandé une critique</p>
+            {% endif %}
+            <p class="text-xl">{{ post.title }}</p>
+            <p>{{ post.description }}</p>
+        </div>
+        <p>{{ post.time_created }}</p>
+    </div>
+
+    {% if post.image %}
     <img src="{{ post.image.url }}" class="p-4">
-{% endif %}
+    {% endif %}
+
+</div>
