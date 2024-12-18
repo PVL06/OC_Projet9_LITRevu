@@ -1,3 +1,5 @@
+{% load tz %}
+
 <div class="p-4 rounded-xl bg-cyan-200">
 
     <div class="flex justify-between">
@@ -10,7 +12,7 @@
             <p class="text-xl">{{ post.title }}</p>
             <p>{{ post.description }}</p>
         </div>
-        <p>{{ post.time_created }}</p>
+        <p>{{ post.time_created|timezone:"Europe/Paris" }}</p>
     </div>
 
     {% if post.image %}
