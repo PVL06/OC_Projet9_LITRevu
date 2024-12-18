@@ -1,17 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
     <div class="flex items-center w-full h-40">
         <h2 class="text-2xl text-cyan-100 font-semibold">
         Vous êtes en train de poster en réponse à
         </h2>
     </div>
+
     <div class="p-4 rounded-xl bg-cyan-200 w-full">
         {% include 'review/partials/ticket_snippet.html' %}
     </div>
+
     <div class="flex items-center w-full h-40">
         <h2 class="text-2xl text-cyan-100 font-semibold">Modifier votre critique</h2>
     </div>
+
     <form action="" method="post"
     class="form-post items-center bg-cyan-100 rounded-xl mb-6 p-6">
         {{ form }}
@@ -21,4 +25,5 @@
         Modifier
         </button>
     </form>
+    
 {% endblock %}
