@@ -18,13 +18,14 @@ class TicketForm(forms.ModelForm):
 
 class ReviewFrom(forms.ModelForm):
     RATING_CHOICES = ((1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5'))
-    headline = forms.CharField(widget=forms.TextInput(attrs={'maxlength': 128}))
-    body = forms.CharField(widget=forms.Textarea(attrs={'maxlength': 8192}))
+
     rating = forms.TypedChoiceField(
         widget=forms.RadioSelect,
         choices=RATING_CHOICES,
         coerce=int
         )
+    headline = forms.CharField(widget=forms.TextInput(attrs={'maxlength': 128}))
+    body = forms.CharField(widget=forms.Textarea(attrs={'maxlength': 8192}))
 
     class Meta:
         model = models.Review
@@ -38,6 +39,11 @@ class ReviewFrom(forms.ModelForm):
 
 
 class FollowForm(forms.ModelForm):
+
     class Meta:
         model = models.UserFollows
         fields = ['followed_user',]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['followed_user'].empty_label = None
