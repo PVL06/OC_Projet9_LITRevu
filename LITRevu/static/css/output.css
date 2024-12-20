@@ -792,6 +792,14 @@ form ul {
   height: 11rem;
 }
 
+.h-36 {
+  height: 9rem;
+}
+
+.h-96 {
+  height: 24rem;
+}
+
 .w-1\/2 {
   width: 50%;
 }
@@ -806,6 +814,10 @@ form ul {
 
 .w-full {
   width: 100%;
+}
+
+.w-\[80\%\] {
+  width: 80%;
 }
 
 .flex-col {

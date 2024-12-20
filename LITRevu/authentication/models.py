@@ -40,4 +40,3 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_name(self):
         return self.username 
-    

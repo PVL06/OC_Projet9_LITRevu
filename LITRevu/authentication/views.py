@@ -39,11 +39,15 @@ class SignUpView(View):
     
     def post(self, request):
         form = self.form_class(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('flux')
-        return render(request, self.template, context={'form': form})
+        message = ''
+        if len(form['username'].value()) > 3:
+            if form.is_valid():
+                user = form.save()
+                login(request, user)
+                return redirect('flux')
+        else:
+            message = "Le nom d'utilisateur doit avoir au minimum 4 caractères."
+        return render(request, self.template, context={'form': form, 'message': message})
 
 
 class LogoutView(View):
