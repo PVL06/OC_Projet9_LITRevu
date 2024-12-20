@@ -4,6 +4,8 @@ from django.db import models
 from pathlib import Path
 from django.conf import settings
 
+from PIL import Image
+
 
 class Ticket(models.Model):
     title = models.CharField(max_length=128)
@@ -19,6 +21,14 @@ class Ticket(models.Model):
             image_path.unlink()
         super().delete(*args, **kwargs)
 
+    def save(self, *args, **kwargs):
+        if self.image:
+            image_size = (150, 200)
+            image = Image.open(self.image)
+            image.thumbnail(image_size)
+            image.save(self.image.path)
+        super().save(*args, **kwargs)
+
 
 class Review(models.Model):
     ticket = models.ForeignKey(to=Ticket, on_delete=models.CASCADE)
@@ -27,9 +37,6 @@ class Review(models.Model):
     body = models.CharField(max_length=8192, blank=True)
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     time_created = models.DateTimeField(auto_now_add=True)
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
 
 
 class UserFollows(models.Model):

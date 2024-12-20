@@ -10,9 +10,9 @@
         <div class="modify-img-none">
             {{ form }}
         </div>
-        <div class="flex flex-col">
+        <div id="test" class="flex flex-col">
             <p class="mb-3">Image :</p>
-            <img src="{{ img.url }}" alt="">
+            <img src="{{ img.url }}" alt="" class="w-40">
             {{ form.image }}
             {% csrf_token %}
         </div>

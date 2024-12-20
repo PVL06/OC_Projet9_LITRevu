@@ -12,4 +12,5 @@ urlpatterns = [
     path('<str:content_type>/<int:id>/update/', views.UpdateContentView.as_view(), name='update'),
     path('<str:content_type>/<int:id>/delete/', views.DeleteContentView.as_view(), name='delete'),
     path('unfollow/<int:id>', views.UnfollowView.as_view(), name='unfollow'),
+    path('<str:content_type>/<int:id>/deletepost/', views.DeleteContent2View.as_view(), name='post_delete'),
 ]

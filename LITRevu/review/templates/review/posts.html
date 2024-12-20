@@ -20,7 +20,7 @@
             {% endif %}
                     <a href="{% url 'update' content_type=post.content_type|lower id=post.id %}"
                     class="btn px-4 py-1 m-4">Modifier</a>
-                    <a href="{% url 'delete' content_type=post.content_type|lower id=post.id %}"
+                    <a href="{% url 'post_delete' content_type=post.content_type|lower id=post.id %}"
                     class="btn px-4 py-1">Supprimer</a>
                 </div>
 

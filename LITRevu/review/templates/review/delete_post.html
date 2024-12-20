@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="card-medium mt-20 p-4 w-full">
+        {% if type == 'ticket' %}  
+            {% include 'review/partials/ticket_snippet.html' %}
+        {% elif type == 'review' %}
+            {% include 'review/partials/review_snippet.html' %}
+        {% endif %}
+    </div>
+    <form action="" method="post" class="flex flex-col justify-center">
+        {% csrf_token %}
+        <p class="flex items-center h-32 text-2xl text-cyan-300">
+            Etes-vous sûre de vouloir supprimer
+            {% if type == 'ticket' %}  
+            cette demande de critique ?
+        {% elif type == 'review' %}
+            cette critique ?
+        {% endif %}
+        </p>
+        <div class="flex justify-center">
+            <button type="submit" class="btn px-12 py-1">OK</button>
+        </div>
+    </form>
+
+{% endblock %}

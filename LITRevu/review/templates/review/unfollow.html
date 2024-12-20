@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="flex_ctn_center">
-        <form action="" method="post">
-            {% csrf_token %}
-            <p>Etes-vous sûre de vouloir retirer {{ user_follow }} de votre abonnement ?</p>
-            <button type="submit">OK</button>
-        </form>
-    </div>
+
+    <form action="" method="post" class="flex flex-col justify-center">
+        {% csrf_token %}
+        <p class="flex items-center h-44 text-2xl text-cyan-300">Etes-vous sûre de vouloir retirer {{ user_follow }} de votre abonnement ?</p>
+        <div class="flex justify-center">
+            <button type="submit" class="btn px-12 py-1">OK</button>
+        </div>
+    </form>
+
 {% endblock %}

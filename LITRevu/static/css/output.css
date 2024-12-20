@@ -579,7 +579,7 @@ select {
 input {
   margin-top: 1rem;
   margin-bottom: 1rem;
-  width: 100%;
+  width: 24rem;
   padding: 1rem;
   text-align: center;
 }
@@ -748,6 +748,10 @@ form ul {
   margin-top: 3.5rem;
 }
 
+.mt-20 {
+  margin-top: 5rem;
+}
+
 .mt-4 {
   margin-top: 1rem;
 }
@@ -758,6 +762,10 @@ form ul {
 
 .flex {
   display: flex;
+}
+
+.h-12 {
+  height: 3rem;
 }
 
 .h-16 {
@@ -772,28 +780,28 @@ form ul {
   height: 7rem;
 }
 
-.h-4 {
-  height: 1rem;
+.h-32 {
+  height: 8rem;
 }
 
 .h-40 {
   height: 10rem;
 }
 
-.h-10 {
-  height: 2.5rem;
-}
-
-.h-12 {
-  height: 3rem;
+.h-44 {
+  height: 11rem;
 }
 
 .w-1\/2 {
   width: 50%;
 }
 
-.w-\[350px\] {
-  width: 350px;
+.w-40 {
+  width: 10rem;
+}
+
+.w-\[500\] {
+  width: 500;
 }
 
 .w-full {
@@ -802,10 +810,6 @@ form ul {
 
 .flex-col {
   flex-direction: column;
-}
-
-.items-end {
-  align-items: flex-end;
 }
 
 .items-center {
@@ -868,6 +872,11 @@ form ul {
   padding-right: 2.75rem;
 }
 
+.px-12 {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -915,6 +924,11 @@ form ul {
 .text-amber-300 {
   --tw-text-opacity: 1;
   color: rgb(252 211 77 / var(--tw-text-opacity, 1));
+}
+
+.text-cyan-300 {
+  --tw-text-opacity: 1;
+  color: rgb(103 232 249 / var(--tw-text-opacity, 1));
 }
 
 .text-cyan-900 {

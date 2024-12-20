@@ -8,7 +8,6 @@ from django.conf import settings
 from django.contrib import messages
 from pathlib import Path
 
-
 from . import forms, models
 from authentication.models import User
 
@@ -25,14 +24,16 @@ class FluxView(LoginRequiredMixin, View):
         )
         tickets = self.ticket_class.objects.filter(user__in=users_viewable)
         tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
-        reviews = self.review_class.objects.filter(user__in=users_viewable)
+        reviews = self.review_class.objects.filter(
+            Q(user__in=users_viewable) |
+            Q(ticket__user__in=users_viewable)
+            )
         reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
         posts = sorted(
             chain(tickets, reviews),
             key=lambda post: post.time_created,
             reverse=True
         )
-        messages.success(request, 'test')
         return render(request, self.template, context={'posts': posts})
     
 
@@ -141,6 +142,7 @@ class UpdateContentView(LoginRequiredMixin, View):
             ticket.image = ''
             form = self.ticket_form_class(instance=ticket)
             return render(request, self.ticket_template, context={'form': form, 'img': ticket_img})
+        
         elif content_type == 'review':
             review = get_object_or_404(models.Review, id=id)
             form = self.review_form_class(instance=review)
@@ -151,11 +153,12 @@ class UpdateContentView(LoginRequiredMixin, View):
     def post(self, request, content_type, id):
         if content_type == 'ticket':
             ticket = get_object_or_404(models.Ticket, id=id)
-            last_image = str(ticket.image)
+            last_image = str(ticket.image) if ticket.image else ''
             form = self.ticket_form_class(request.POST, request.FILES, instance=ticket)
             if form.is_valid():
                 ticket = form.save()
-                if last_image and not ticket.image:
+                image_path = Path(settings.MEDIA_ROOT / last_image)
+                if last_image:
                     image_path = Path(settings.MEDIA_ROOT / last_image)
                     image_path.unlink()
                 return redirect('posts')
@@ -221,4 +224,47 @@ class UnfollowView(LoginRequiredMixin, View):
         follow = models.UserFollows.objects.get(followed_user=id, user=request.user)
         follow.delete()
         return redirect('follows')
+    
+
+class DeleteContent2View(LoginRequiredMixin, View):
+    template = 'review/delete_post.html'
+
+    def get(self, request, content_type, id):
+        if content_type == 'ticket':
+            ticket = get_object_or_404(models.Ticket, id=id)
+            if ticket.user == request.user:
+                return render(request, self.template, context={'type': 'ticket', 'post': ticket})
+    
+        if content_type == 'review':
+            review = get_object_or_404(models.Review, id=id)
+            if review.user == request.user:
+                return render(request, self.template, context={'type': 'review', 'post': review})
+        return redirect('posts')
+
+    
+    def post(self, request, content_type, id):
+        if content_type == 'ticket':
+            ticket = get_object_or_404(models.Ticket, id=id)
+            if ticket.user == request.user:
+                ticket.delete()
+
+        if content_type == 'review':
+            review = get_object_or_404(models.Review, id=id)
+            if review.user == request.user:
+                review.delete()
+
+        return redirect('posts')
+        """
+        if content_type == 'ticket':
+            ticket = get_object_or_404(models.Ticket, id=id)
+            if ticket.user == request.user:
+                ticket.delete()
+        elif content_type == 'review':
+            review = get_object_or_404(models.Review, id=id)
+            if review.user == request.user:
+                review.ticket.response = False
+                review.ticket.save()
+                review.delete()
+        return redirect('posts')
+        """
     

@@ -10,10 +10,10 @@
             <a href="{% url 'sign_up' %}" class="btn px-11 py-2">S'inscrire</a>
         </div>
         
-        <div class="w-1/2 items-center">
-            <p class="error h-4">{{ message }}</p>
+        <div class="flex flex-col w-1/2">
+            <p class="error h-16">{{ message }}</p>
             <form action="" method="post" class="label-none">
-                {{ form.as_p }}
+                {{ form }}
                 {% csrf_token %}
                 <button type="submit" class="btn px-8 py-2 m-8">Se connecter</button>
             </form>

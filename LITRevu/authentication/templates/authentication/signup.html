@@ -4,7 +4,7 @@
     <div class="flex items-center w-full h-40">
         <h2>Inscrivez-vous</h2>
     </div>
-    <div class="w-[350px]">
+    <div class="w-[500]">
         <ul class="error h-24 text-center">
             {% if form.errors %}
                 {% for field in form %}     
@@ -18,7 +18,7 @@
                 {% endfor %}
             {% endif %}
         </ul>
-        <form action="" method="post" class="label-none">
+        <form action="" method="post" class="label-none flex flex-col justify-center">
             {{ form }}
             {% csrf_token %}
             <div class="flex justify-between my-4">

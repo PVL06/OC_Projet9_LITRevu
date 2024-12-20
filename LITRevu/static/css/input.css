@@ -16,7 +16,7 @@
     }
 
     input {
-        @apply w-full p-4 my-4 text-center
+        @apply w-96 p-4 my-4 text-center
     }
 
     input[type="radio"] {
