@@ -170,21 +170,35 @@ class UpdateContentView(LoginRequiredMixin, View):
                 review = form.save()
                 return redirect('posts')
         return render(request, self.ticket_template, context={'form': form})
-    
+
 
 class DeleteContentView(LoginRequiredMixin, View):
+    template = 'review/delete_post.html'
 
     def get(self, request, content_type, id):
         if content_type == 'ticket':
             ticket = get_object_or_404(models.Ticket, id=id)
             if ticket.user == request.user:
-                ticket.delete()
-        elif content_type == 'review':
+                return render(request, self.template, context={'type': 'ticket', 'post': ticket})
+    
+        if content_type == 'review':
             review = get_object_or_404(models.Review, id=id)
             if review.user == request.user:
-                review.ticket.response = False
-                review.ticket.save()
+                return render(request, self.template, context={'type': 'review', 'post': review})
+        return redirect('posts')
+
+    
+    def post(self, request, content_type, id):
+        if content_type == 'ticket':
+            ticket = get_object_or_404(models.Ticket, id=id)
+            if ticket.user == request.user:
+                ticket.delete()
+
+        if content_type == 'review':
+            review = get_object_or_404(models.Review, id=id)
+            if review.user == request.user:
                 review.delete()
+
         return redirect('posts')
 
 
@@ -224,47 +238,4 @@ class UnfollowView(LoginRequiredMixin, View):
         follow = models.UserFollows.objects.get(followed_user=id, user=request.user)
         follow.delete()
         return redirect('follows')
-    
-
-class DeleteContent2View(LoginRequiredMixin, View):
-    template = 'review/delete_post.html'
-
-    def get(self, request, content_type, id):
-        if content_type == 'ticket':
-            ticket = get_object_or_404(models.Ticket, id=id)
-            if ticket.user == request.user:
-                return render(request, self.template, context={'type': 'ticket', 'post': ticket})
-    
-        if content_type == 'review':
-            review = get_object_or_404(models.Review, id=id)
-            if review.user == request.user:
-                return render(request, self.template, context={'type': 'review', 'post': review})
-        return redirect('posts')
-
-    
-    def post(self, request, content_type, id):
-        if content_type == 'ticket':
-            ticket = get_object_or_404(models.Ticket, id=id)
-            if ticket.user == request.user:
-                ticket.delete()
-
-        if content_type == 'review':
-            review = get_object_or_404(models.Review, id=id)
-            if review.user == request.user:
-                review.delete()
-
-        return redirect('posts')
-        """
-        if content_type == 'ticket':
-            ticket = get_object_or_404(models.Ticket, id=id)
-            if ticket.user == request.user:
-                ticket.delete()
-        elif content_type == 'review':
-            review = get_object_or_404(models.Review, id=id)
-            if review.user == request.user:
-                review.ticket.response = False
-                review.ticket.save()
-                review.delete()
-        return redirect('posts')
-        """
     
