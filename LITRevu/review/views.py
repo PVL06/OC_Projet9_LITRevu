@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.views.generic import View
-from django.db.models import CharField, Value
-from itertools import chain
-from django.db.models import Q
+from django.db.models import CharField, Value, Q
 from django.conf import settings
+from itertools import chain
 from pathlib import Path
 
 from . import forms, models
@@ -15,6 +15,7 @@ class FluxView(LoginRequiredMixin, View):
     template = 'review/flux.html'
     ticket_class = models.Ticket
     review_class = models.Review
+    POST_PER_PAGE = 10
 
     def get(self, request):
         users_viewable = User.objects.filter(
@@ -33,13 +34,17 @@ class FluxView(LoginRequiredMixin, View):
             key=lambda post: post.time_created,
             reverse=True
         )
-        return render(request, self.template, context={'posts': posts})
+        paginator = Paginator(posts, self.POST_PER_PAGE)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, self.template, context={'posts': page_obj})
     
 
 class PostsView(LoginRequiredMixin, View):
     template = 'review/posts.html'
     ticket_class = models.Ticket
     review_class = models.Review
+    POST_PER_PAGE = 10
 
     def get(self, request):
         tickets = self.ticket_class.objects.filter(user=request.user)
@@ -51,7 +56,10 @@ class PostsView(LoginRequiredMixin, View):
             key=lambda post: post.time_created,
             reverse=True
         )
-        return render(request, self.template, context={'posts': posts})
+        paginator = Paginator(posts, self.POST_PER_PAGE)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, self.template, context={'posts': page_obj})
     
 
 class CreateTicketView(LoginRequiredMixin, View): 

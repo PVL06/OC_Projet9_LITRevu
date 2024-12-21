@@ -49,6 +49,14 @@
         @apply rounded-xl bg-cyan-200 shadow-md shadow-cyan-200/70
     }
 
+    .nav-ctn {
+        @apply grid grid-cols-3 items-center m-6 px-2 py-2 rounded-lg text-cyan-200
+    }
+
+    .nav-btn {
+        @apply p-2 hover:text-orange-500
+    }
+
     /* Form style */
 
     .label-none label {

@@ -11,8 +11,7 @@ class HomePageView(View):
 
     def get(self, request):
         form = self.form_class()
-        message = ''
-        return render(request, self.template, context={'form': form, 'message': message})
+        return render(request, self.template, context={'form': form})
     
     def post(self, request):
         form = self.form_class(request.POST)
@@ -25,7 +24,7 @@ class HomePageView(View):
                 login(request, user)
                 return redirect('flux')
             
-        message = f'Identifiants invalides'
+        message = 'Identifiants invalides'
         return render(request, self.template, context={'form':form, 'message':message})
 
 
@@ -55,3 +54,4 @@ class LogoutView(View):
     def get(self, request):
         logout(request)
         return redirect('home')
+    

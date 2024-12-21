@@ -645,6 +645,29 @@ form ul {
   --tw-shadow: var(--tw-shadow-colored);
 }
 
+.nav-ctn {
+  margin: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  border-radius: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  --tw-text-opacity: 1;
+  color: rgb(165 243 252 / var(--tw-text-opacity, 1));
+}
+
+.nav-btn {
+  padding: 0.5rem;
+}
+
+.nav-btn:hover {
+  --tw-text-opacity: 1;
+  color: rgb(249 115 22 / var(--tw-text-opacity, 1));
+}
+
 /* Form style */
 
 .label-none label {
@@ -927,6 +950,10 @@ form ul {
 .text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem;
+}
+
+.font-bold {
+  font-weight: 700;
 }
 
 .text-amber-300 {
