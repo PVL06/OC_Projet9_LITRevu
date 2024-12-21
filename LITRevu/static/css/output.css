@@ -784,20 +784,16 @@ form ul {
   height: 8rem;
 }
 
+.h-36 {
+  height: 9rem;
+}
+
 .h-40 {
   height: 10rem;
 }
 
 .h-44 {
   height: 11rem;
-}
-
-.h-36 {
-  height: 9rem;
-}
-
-.h-96 {
-  height: 24rem;
 }
 
 .w-1\/2 {
@@ -812,12 +808,12 @@ form ul {
   width: 500;
 }
 
-.w-full {
-  width: 100%;
-}
-
 .w-\[80\%\] {
   width: 80%;
+}
+
+.w-full {
+  width: 100%;
 }
 
 .flex-col {

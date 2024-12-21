@@ -40,3 +40,12 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_name(self):
         return self.username 
+
+    @property
+    def ticket_count(self):
+        return User.objects.filter(ticket__user = self).count()
+        
+    @property
+    def review_count(self):
+        return User.objects.filter(review__user = self).count()
+    
