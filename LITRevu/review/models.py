@@ -22,12 +22,12 @@ class Ticket(models.Model):
         super().delete(*args, **kwargs)
 
     def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
         if self.image:
             image_size = (150, 200)
             image = Image.open(self.image)
             image.thumbnail(image_size)
             image.save(self.image.path)
-        super().save(*args, **kwargs)
 
 
 class Review(models.Model):
