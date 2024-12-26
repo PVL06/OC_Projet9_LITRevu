@@ -165,7 +165,6 @@ class UpdateContentView(LoginRequiredMixin, View):
             form = self.ticket_form_class(request.POST, request.FILES, instance=ticket)
             if form.is_valid():
                 ticket = form.save()
-                image_path = Path(settings.MEDIA_ROOT / last_image)
                 if last_image:
                     image_path = Path(settings.MEDIA_ROOT / last_image)
                     image_path.unlink()
