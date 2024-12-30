@@ -15,12 +15,6 @@ class Ticket(models.Model):
     time_created = models.DateTimeField(auto_now_add=True)
     response = models.BooleanField(default=False)
 
-    def delete(self, *args, **kwargs):
-        if self.image:
-            image_path = Path(settings.MEDIA_ROOT / str(self.image))
-            image_path.unlink()
-        super().delete(*args, **kwargs)
-
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if self.image:
@@ -53,4 +47,3 @@ class UserFollows(models.Model):
     @classmethod
     def get_users_followed(cls, user_pk):
         return cls.objects.all().filter(user=user_pk)
-

@@ -15,16 +15,16 @@
                 <p>{{ user }}</p>
                 <ul class="flex gap-4">
                     <li>
-                        <a href="{% url 'flux' %}" class="nav-hover px-2">Flux</a>
+                        <a href="{% url 'flux' %}" class="nav-hover px-2 font-bold">Flux</a>
                     </li>
                     <li>
-                        <a href="{% url 'posts' %}" class="nav-hover px-2">Posts</a>
+                        <a href="{% url 'posts' %}" class="nav-hover px-2 font-bold">Posts</a>
                     </li>
                     <li>
-                        <a href="{% url 'follows' %}" class="nav-hover px-2">Abonnement</a>
+                        <a href="{% url 'follows' %}" class="nav-hover px-2 font-bold">Abonnement</a>
                     </li>
                     <li>
-                        <a href="{% url 'logout' %}" class="nav-hover px-2">Se déconnecter</a>
+                        <a href="{% url 'logout' %}" class="nav-hover px-2 font-bold">Se déconnecter</a>
                     </li>
                 </ul>
                 {% endif %}

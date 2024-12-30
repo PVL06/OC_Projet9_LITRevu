@@ -2,19 +2,17 @@
 {% load mathfilters %}
 
 <div class="card-light flex flex-col p-4 gap-4">
-
+    
     <div class="flex justify-between">
-        <div class="">
-            {% if post.user == user %}
-            <p>Vous avez publié une critique</p>
-            {% else %}
-            <p>{{ post.user }} a publié une critique</p>
-            {% endif %}
-            <p class="text-2xl">{{ post.headline }} - <span class="text-amber-300">{{ '★'|mul:post.rating }}</span></p>
-            <p>{{ post.body }}</p>
-        </div>
+        {% if post.user == user %}
+        <p>Vous avez publié une critique</p>
+        {% else %}
+        <p>{{ post.user }} a publié une critique</p>
+        {% endif %}
         <p>{{ post.time_created|timezone:"Europe/Paris" }}</p>
     </div>
+    <p class="text-2xl">{{ post.headline }} - <span class="text-amber-300">{{ '★'|mul:post.rating }}</span></p>
+    <p>{{ post.body }}</p>
 
     {% with post=post.ticket %}
         {% include 'review/partials/ticket_snippet.html' %}

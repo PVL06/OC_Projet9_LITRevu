@@ -161,13 +161,9 @@ class UpdateContentView(LoginRequiredMixin, View):
     def post(self, request, content_type, id):
         if content_type == 'ticket':
             ticket = get_object_or_404(self.ticket_class, id=id)
-            last_image = str(ticket.image) if ticket.image else ''
             form = self.ticket_form_class(request.POST, request.FILES, instance=ticket)
             if form.is_valid():
                 ticket = form.save()
-                if last_image:
-                    image_path = Path(settings.MEDIA_ROOT / last_image)
-                    image_path.unlink()
                 return redirect('posts')
             
         elif content_type == 'review':
