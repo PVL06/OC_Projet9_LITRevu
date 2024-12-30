@@ -22,7 +22,14 @@ class Ticket(models.Model):
             image = Image.open(self.image)
             image.thumbnail(image_size)
             image.save(self.image.path)
+            image.close()
 
+    def delete(self, *args, **kwargs):
+        super().delete(*args, **kwargs)
+        last_image = str(self.image)
+        if last_image:
+            image_path = Path(settings.MEDIA_ROOT / last_image)
+            image_path.unlink()
 
 class Review(models.Model):
     ticket = models.ForeignKey(to=Ticket, on_delete=models.CASCADE)
