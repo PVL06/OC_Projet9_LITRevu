@@ -3,7 +3,9 @@ Présentation du projet
 
 Ce projet s’inscrit dans le cadre du parcours "Développeur d’application Python" sur OpenClassrooms. Il consiste à développer une application web permettant la publication et la consultation de critiques de livres et d’articles.
 
-Fonctionnalités principales:
+L'objectif pédagogique de ce projet a pour but de prendre en main le framework Django et de manipuler une base de données SQLite.
+
+## Fonctionnalités principales
 
 * Authentification sécurisée : gestion de l’inscription et de la connexion des utilisateurs.
 * Publication de critiques : les utilisateurs peuvent partager leurs avis détaillés sur des livres ou articles qu’ils ont lus.
@@ -11,9 +13,6 @@ Fonctionnalités principales:
 * Gestion des publications : modification et suppression des critiques publiées.
 * Suivi d’autres utilisateurs : suivre d’autres membres pour consulter leurs demandes et publications de critiques.
 * Interface d'administration : gestion des utilisateurs, des tickets et des critiques
-
-L'objectif pédagogique de ce projet a pour but de prendre en main le framework Django et de manipuler une base de données SQLite.
-
 
 ## Installation
 
@@ -50,10 +49,15 @@ cd LITRevu
 python manage.py migrate
 ```
 
-2. Lancer le serveur
+2. Lancer le serveur  
 ```
 python manage.py runserver
 ```
 
-3. Accès au site
+## Utilisation 
+
 Se rendre sur un navigateur a l'adresse https://localhost:8000/ ou https://127.0.0.1:8000/
+
+Vous pouvez créer un utilisateur avec un pseudo et un mot de passe.
+Ensuite suivre les utilisateurs déja enregistré dans la base de donnée dans le menu abonnement et consulter leurs critiques et demande de critique.
+Testez les fonctionnalités.
