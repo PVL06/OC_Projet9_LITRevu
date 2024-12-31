@@ -16,7 +16,7 @@
     </div>
 
     {% if post.image %}
-    <img src="{{ post.image.url }}" class="p-4">
+    <img src="{{ post.image.url }}" alt="image: {{ post.image }}" class="p-4">
     {% endif %}
 
     {% if not post.response %}

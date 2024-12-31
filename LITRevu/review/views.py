@@ -220,7 +220,8 @@ class FollowView(LoginRequiredMixin, View):
         form = self.follow_form_class()
         no_following = User.objects.exclude(
             Q(follow_user__user = request.user) |
-            Q(pk = request.user.pk)
+            Q(pk = request.user.pk) |
+            Q(is_superuser=True)
             )
         form.fields['followed_user'].queryset = no_following
         return render(request, self.template, context=self._get_follow_context(request, form))

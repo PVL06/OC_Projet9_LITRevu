@@ -1,8 +1,8 @@
 <div class="nav-ctn">
     <div class="text-2xl font-bold">
         {% if posts.has_previous %}
-        <a href="?page=1" class="nav-btn"><<</a>
-        <a href="?page={{ posts.previous_page_number }}" class="nav-btn"><</a>
+        <a href="?page=1" class="nav-btn" aria-label="Début"><<</a>
+        <a href="?page={{ posts.previous_page_number }}" class="nav-btn" aria-label="Précédent"><</a>
         {% endif %}
     </div>
     
@@ -11,9 +11,9 @@
     </div>
     <div class="text-2xl font-bold">
         {% if posts.has_next %}
-        <a href="?page={{ posts.next_page_number }}" class="nav-btn">></a>
+        <a href="?page={{ posts.next_page_number }}" class="nav-btn" aria-label="Suivant">></a>
         
-        <a href="?page={{ posts.paginator.num_pages }}" class="nav-btn">>></a>
+        <a href="?page={{ posts.paginator.num_pages }}" class="nav-btn" aria-label="Dernier">>></a>
         {% endif %}
     </div>
 </div>
