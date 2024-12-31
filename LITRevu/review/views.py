@@ -19,7 +19,7 @@ class FluxView(LoginRequiredMixin, View):
 
     def get(self, request):
         users_viewable = User.objects.filter(
-            Q(follow_user__user = request.user) |
+            Q(follow_user__user=request.user) |
             Q(pk=request.user.pk)
         )
         tickets = self.ticket_class.objects.filter(user__in=users_viewable)
@@ -38,7 +38,7 @@ class FluxView(LoginRequiredMixin, View):
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         return render(request, self.template, context={'posts': page_obj})
-    
+
 
 class PostsView(LoginRequiredMixin, View):
     template = 'review/posts.html'
@@ -60,16 +60,16 @@ class PostsView(LoginRequiredMixin, View):
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         return render(request, self.template, context={'posts': page_obj})
-    
 
-class CreateTicketView(LoginRequiredMixin, View): 
+
+class CreateTicketView(LoginRequiredMixin, View):
     template = 'review/ticket_add.html'
     form_class = forms.TicketForm
 
     def get(self, request):
         form = self.form_class()
         return render(request, self.template, context={'form': form})
-    
+
     def post(self, request):
         form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
@@ -78,7 +78,7 @@ class CreateTicketView(LoginRequiredMixin, View):
             ticket.save()
             return redirect('flux')
         return render(request, self.template, context={'form': form})
-    
+
 
 class CreateCompleteReviewView(LoginRequiredMixin, View):
     template = 'review/review_complete_add.html'
@@ -93,7 +93,7 @@ class CreateCompleteReviewView(LoginRequiredMixin, View):
             'review_form': review_form
         }
         return render(request, self.template, context=context)
-    
+
     def post(self, request):
         ticket_form = self.ticket_form_class(request.POST, request.FILES)
         review_form = self.review_form_class(request.POST)
@@ -111,7 +111,7 @@ class CreateCompleteReviewView(LoginRequiredMixin, View):
             'review_form': review_form
         }
         return render(request, self.template, context=context)
-    
+
 
 class ResponseToTicketView(LoginRequiredMixin, View):
     ticket_template = 'review/ticket_response.html'
@@ -122,7 +122,7 @@ class ResponseToTicketView(LoginRequiredMixin, View):
         ticket = get_object_or_404(self.ticket_class, id=id)
         form = self.review_form_class()
         return render(request, self.ticket_template, context={'form': form, 'post': ticket})
-    
+
     def post(self, request, id):
         ticket = get_object_or_404(self.ticket_class, id=id)
         form = self.review_form_class(request.POST)
@@ -135,7 +135,7 @@ class ResponseToTicketView(LoginRequiredMixin, View):
             ticket.save()
             return redirect('flux')
         return render(request, self.ticket_template, context={'form': form, 'post': ticket})
-    
+
 
 class UpdateContentView(LoginRequiredMixin, View):
     ticket_template = 'review/ticket_update.html'
@@ -144,7 +144,7 @@ class UpdateContentView(LoginRequiredMixin, View):
     review_form_class = forms.ReviewFrom
     ticket_class = models.Ticket
     review_class = models.Review
-    
+
     def get(self, request, content_type, id):
         if content_type == 'ticket':
             ticket = get_object_or_404(self.ticket_class, id=id)
@@ -152,7 +152,7 @@ class UpdateContentView(LoginRequiredMixin, View):
             ticket.image = ''
             form = self.ticket_form_class(instance=ticket)
             return render(request, self.ticket_template, context={'form': form, 'img': ticket_img})
-        
+
         elif content_type == 'review':
             review = get_object_or_404(self.review_class, id=id)
             form = self.review_form_class(instance=review)
@@ -169,7 +169,7 @@ class UpdateContentView(LoginRequiredMixin, View):
                     image_path = Path(settings.MEDIA_ROOT / last_image)
                     image_path.unlink()
                 return redirect('posts')
-            
+
         elif content_type == 'review':
             review = get_object_or_404(self.review_class, id=id)
             form = self.review_form_class(request.POST, instance=review)
@@ -189,14 +189,13 @@ class DeleteContentView(LoginRequiredMixin, View):
             ticket = get_object_or_404(self.ticket_class, id=id)
             if ticket.user == request.user:
                 return render(request, self.template, context={'type': 'ticket', 'post': ticket})
-    
+
         if content_type == 'review':
             review = get_object_or_404(self.review_class, id=id)
             if review.user == request.user:
                 return render(request, self.template, context={'type': 'review', 'post': review})
         return redirect('posts')
 
-    
     def post(self, request, content_type, id):
         if content_type == 'ticket':
             ticket = get_object_or_404(self.ticket_class, id=id)
@@ -219,13 +218,13 @@ class FollowView(LoginRequiredMixin, View):
     def get(self, request):
         form = self.follow_form_class()
         no_following = User.objects.exclude(
-            Q(follow_user__user = request.user) |
-            Q(pk = request.user.pk) |
+            Q(follow_user__user=request.user) |
+            Q(pk=request.user.pk) |
             Q(is_superuser=True)
             )
         form.fields['followed_user'].queryset = no_following
         return render(request, self.template, context=self._get_follow_context(request, form))
-    
+
     def post(self, request):
         form = self.follow_form_class(request.POST)
         if form.is_valid():
@@ -234,14 +233,14 @@ class FollowView(LoginRequiredMixin, View):
                 follow.user = request.user
                 follow.save()
         return redirect('follows')
-    
+
     def _get_follow_context(self, request, form):
         return {
             'form': form,
             'followers': self.follow_class.get_followers(request.user),
             'followed': self.follow_class.get_users_followed(request.user)
         }
-    
+
 
 class UnfollowView(LoginRequiredMixin, View):
     template = 'review/unfollow.html'
@@ -250,9 +249,8 @@ class UnfollowView(LoginRequiredMixin, View):
     def get(self, request, id):
         follow = self.follow_class.objects.get(followed_user=id, user=request.user)
         return render(request, self.template, context={'user_follow': follow.followed_user})
-    
+
     def post(self, request, id):
         follow = self.follow_class.objects.get(followed_user=id, user=request.user)
         follow.delete()
         return redirect('follows')
-    

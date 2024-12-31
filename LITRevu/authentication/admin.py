@@ -14,4 +14,3 @@ class UserAdmin(admin.ModelAdmin):
     )
     search_fields = ('username',)
     list_per_page = 50
-    

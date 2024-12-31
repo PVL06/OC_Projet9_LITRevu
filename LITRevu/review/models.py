@@ -2,7 +2,6 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.conf import settings
 from django.db import models
 from pathlib import Path
-from django.conf import settings
 
 from PIL import Image
 
@@ -31,6 +30,7 @@ class Ticket(models.Model):
             image_path = Path(settings.MEDIA_ROOT / last_image)
             image_path.unlink()
 
+
 class Review(models.Model):
     ticket = models.ForeignKey(to=Ticket, on_delete=models.CASCADE)
     rating = models.PositiveSmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
@@ -41,8 +41,14 @@ class Review(models.Model):
 
 
 class UserFollows(models.Model):
-    user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='follower')
-    followed_user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='follow_user')
+    user = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='follower')
+    followed_user = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='follow_user')
 
     class Meta:
         unique_together = ('user', 'followed_user', )
@@ -50,7 +56,7 @@ class UserFollows(models.Model):
     @classmethod
     def get_followers(cls, user_pk):
         return cls.objects.all().filter(followed_user=user_pk)
-    
+
     @classmethod
     def get_users_followed(cls, user_pk):
         return cls.objects.all().filter(user=user_pk)

@@ -12,7 +12,7 @@ class HomePageView(View):
     def get(self, request):
         form = self.form_class()
         return render(request, self.template, context={'form': form})
-    
+
     def post(self, request):
         form = self.form_class(request.POST)
         if form.is_valid():
@@ -23,9 +23,9 @@ class HomePageView(View):
             if user is not None:
                 login(request, user)
                 return redirect('flux')
-            
+
         message = 'Identifiants invalides'
-        return render(request, self.template, context={'form':form, 'message':message})
+        return render(request, self.template, context={'form': form, 'message': message})
 
 
 class SignUpView(View):
@@ -35,7 +35,7 @@ class SignUpView(View):
     def get(self, request):
         form = self.form_class()
         return render(request, self.template, context={'form': form})
-    
+
     def post(self, request):
         form = self.form_class(request.POST)
         message = ''
@@ -54,4 +54,3 @@ class LogoutView(View):
     def get(self, request):
         logout(request)
         return redirect('home')
-    
