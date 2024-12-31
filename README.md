@@ -36,6 +36,7 @@ Activation de l'environnement virtuel sur macOS et Linux
 source env/bin/activate
 ```
 3. Installer des dépendances
+
 Utilisez pip pour installer les bibliothèques nécessaires
 ```
 pip install -r requirements.txt
@@ -59,5 +60,7 @@ python manage.py runserver
 Se rendre sur un navigateur a l'adresse https://localhost:8000/ ou https://127.0.0.1:8000/
 
 Vous pouvez créer un utilisateur avec un pseudo et un mot de passe.
+
 Ensuite suivre les utilisateurs déja enregistré dans la base de donnée dans le menu abonnement et consulter leurs critiques et demande de critique.
+
 Testez les fonctionnalités.
