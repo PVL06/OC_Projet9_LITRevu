@@ -205,6 +205,9 @@ class DeleteContentView(LoginRequiredMixin, View):
         if content_type == 'review':
             review = get_object_or_404(self.review_class, id=id)
             if review.user == request.user:
+                ticket = get_object_or_404(self.ticket_class, id=review.ticket.id)
+                ticket.response = False
+                ticket.save()
                 review.delete()
 
         return redirect('posts')
