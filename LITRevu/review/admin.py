@@ -21,7 +21,7 @@ class ReviewAdmin(admin.ModelAdmin):
         'user',
         'time_created',
         'rating',
-        'body',
+        'headline',
     )
     search_fields = ('user__username',)
     list_per_page = 50
