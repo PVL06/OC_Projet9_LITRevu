@@ -16,6 +16,7 @@ class Ticket(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
+        # Resize the image to use less memory
         if self.image:
             image_size = (150, 200)
             image = Image.open(self.image)
@@ -25,6 +26,7 @@ class Ticket(models.Model):
 
     def delete(self, *args, **kwargs):
         super().delete(*args, **kwargs)
+        # Delete the image file
         last_image = str(self.image)
         if last_image:
             image_path = Path(settings.MEDIA_ROOT / last_image)

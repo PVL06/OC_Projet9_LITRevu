@@ -22,6 +22,7 @@ class SignUpForm(UserCreationForm):
         model = get_user_model()
         fields = ('username', 'password1', 'password2')
 
+    # Add labels as placeholders for each field
     def __init__(self, *args, **kwargs):
         super(SignUpForm, self).__init__(*args, **kwargs)
         for field in ['username', 'password1', 'password2']:

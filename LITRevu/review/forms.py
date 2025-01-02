@@ -11,6 +11,7 @@ class TicketForm(forms.ModelForm):
         model = models.Ticket
         fields = ['title', 'description', 'image']
 
+    # Change labels for the frontend
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['title'].label = 'Titre'
@@ -31,6 +32,7 @@ class ReviewFrom(forms.ModelForm):
         model = models.Review
         fields = ['rating', 'headline', 'body']
 
+    # Change labels for the frontend
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['rating'].label = 'Note'
