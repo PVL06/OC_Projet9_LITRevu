@@ -160,6 +160,8 @@ class UpdateContentView(LoginRequiredMixin, View):
     def get(self, request, content_type, id):
         if content_type == 'ticket':
             ticket = get_object_or_404(self.ticket_class, id=id)
+            if ticket.user != request.user:
+                return redirect('flux')
             # Remove the image from the model to control it in the template
             ticket_img = ticket.image if ticket.image else ''
             ticket.image = ''
@@ -168,6 +170,8 @@ class UpdateContentView(LoginRequiredMixin, View):
 
         elif content_type == 'review':
             review = get_object_or_404(self.review_class, id=id)
+            if review.user != request.user:
+                return redirect('flux')
             form = self.review_form_class(instance=review)
             return render(request, self.review_template, context={'form': form, 'post': review.ticket})
 
@@ -177,18 +181,20 @@ class UpdateContentView(LoginRequiredMixin, View):
             last_image = str(ticket.image)
             form = self.ticket_form_class(request.POST, request.FILES, instance=ticket)
             if form.is_valid():
-                ticket = form.save()
-                # Delete the image file if modified
-                if last_image != ticket.image:
-                    image_path = Path(settings.MEDIA_ROOT / last_image)
-                    image_path.unlink()
+                if ticket.user == request.user:
+                    ticket = form.save()
+                    # Delete the image file if modified
+                    if last_image != ticket.image:
+                        image_path = Path(settings.MEDIA_ROOT / last_image)
+                        image_path.unlink()
                 return redirect('posts')
 
         elif content_type == 'review':
             review = get_object_or_404(self.review_class, id=id)
             form = self.review_form_class(request.POST, instance=review)
             if form.is_valid():
-                review = form.save()
+                if review.user == request.user:
+                    review = form.save()
                 return redirect('posts')
 
         return render(request, self.ticket_template, context={'form': form})
