@@ -6,13 +6,12 @@
     <title>LITReview</title>
     <link rel="stylesheet" href="/static/css/output.css">
 </head>
-<body class="bg-cyan-900">
+<body class="bg-cyan-50">
     <div class="relative">
         <nav class="flex justify-center fixed top-0 left-0 right-0  h-16 bg-cyan-950 w-full" >
             <div class="nav-text flex justify-between items-center xl:w-2/3 lg:w-11/12">
                 <h1>LITReview</h1>
                 {% if user.is_authenticated %}
-                <p>{{ user }}</p>
                 <ul class="flex gap-4">
                     <li>
                         <a href="{% url 'flux' %}" class="nav-hover px-2 font-bold">Flux</a>
@@ -27,6 +26,7 @@
                         <a href="{% url 'logout' %}" class="nav-hover px-2 font-bold">Se déconnecter</a>
                     </li>
                 </ul>
+                <p>{{ user }}</p>
                 {% endif %}
             </div>
         </nav>

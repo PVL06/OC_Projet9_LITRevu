@@ -8,15 +8,15 @@
     }
 
     h2 {
-        @apply text-2xl font-semibold text-cyan-100
+        @apply text-xl font-semibold text-cyan-700
     }
 
     select {
-        @apply w-[300px] h-12 p-2 m-1 rounded-xl
+        @apply w-[300px] h-12 p-2 m-1
     }
 
     input {
-        @apply w-96 p-4 my-4 text-center
+        @apply w-96 p-2 my-2 text-center
     }
 
     input[type="radio"] {
@@ -38,15 +38,15 @@
     }
 
     .btn {
-        @apply bg-orange-400 rounded-xl shadow-md shadow-orange-400/50 hover:bg-orange-500
+        @apply bg-orange-400 rounded-xl hover:bg-orange-500
     }
 
     .card-light {
-        @apply rounded-xl bg-cyan-100 shadow-md shadow-cyan-100/50
+        @apply bg-cyan-50
     }
 
     .card-medium {
-        @apply rounded-xl bg-cyan-200 shadow-md shadow-cyan-200/70
+        @apply  bg-cyan-100
     }
 
     .nav-ctn {

@@ -3,8 +3,8 @@
 {% block content %}
 
     <div class="flex items-center justify-around h-40 w-full">
-        <a href="{% url 'create_ticket' %}" class="btn px-11 py-2">Demander une critique</a>
-        <a href="{% url 'create_review' %}" class="btn px-11 py-2">Créer une critique</a>
+        <a href="{% url 'create_ticket' %}" class="btn px-11 py-1">Demander une critique</a>
+        <a href="{% url 'create_review' %}" class="btn px-11 py-1">Créer une critique</a>
     </div>
 
     <div class="flex flex-col gap-4 w-full">
@@ -17,6 +17,7 @@
                 {% include 'review/partials/review_snippet.html' %}
 
             {% endif %}
+            <hr>
         {% endfor %}
     </div>
     

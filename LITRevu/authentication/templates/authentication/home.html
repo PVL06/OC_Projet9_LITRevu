@@ -5,17 +5,17 @@
         <h2 class="text-center w-1/2">Inscrivez-vous maintenant</h2>
         <h2 class="text-center w-1/2">Connectez-vous</h2>
     </div>
-    <div class="flex w-full text-center p-4">
+    <div class="flex w-full items-center text-center p-4">
         <div class="w-1/2 mt-4">
-            <a href="{% url 'sign_up' %}" class="btn px-11 py-2">S'inscrire</a>
+            <a href="{% url 'sign_up' %}" class="btn px-8 py-1">S'inscrire</a>
         </div>
         
-        <div class="flex flex-col w-1/2">
+        <div class="flex flex-col w-1/2 border-l-2">
             <p class="error h-16">{{ message }}</p>
             <form action="" method="post" class="label-none">
                 {{ form }}
                 {% csrf_token %}
-                <button type="submit" class="btn px-8 py-2 m-8">Se connecter</button>
+                <button type="submit" class="btn px-8 py-1 m-8">Se connecter</button>
             </form>
         </div>
     </div>

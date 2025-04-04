@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="flex items-center w-full h-40">
+    <div class="flex items-center justify-center w-full h-40">
         <h2>Inscrivez-vous</h2>
     </div>
     <ul class="error h-36 text-center w-[80%]">
@@ -23,7 +23,7 @@
             {{ form }}
             {% csrf_token %}
             <div class="flex justify-between my-4">
-                <a href="{% url 'home' %}" class="btn px-11 py-2">Retour</a>
+                <a href="{% url 'home' %}" class="btn px-10 py-2">Retour</a>
                 <button type="submit" class="btn px-10 py-2">S'inscrire</button>
             </div>
         </form>

@@ -4,12 +4,13 @@
 
     <div class="w-full">
         <h2 class="flex items-center justify-center h-24">Suivre d'autres utilisateurs</h2>
-        <form method="post" class="label-none flex items-center">
+        <form method="post" class="label-none flex items-center m-4">
             {{ form }}
             {% csrf_token %}
             <button type="submit" class="btn px-4 py-1 ml-8">Envoyer</button>
         </form>
 
+        <hr>
         <h2 class="flex items-center justify-center h-24">Abonnements</h2>
         <ul class="flex flex-col justify-around items-center gap-2 p-2">
             {% for follow in followed %}
@@ -20,6 +21,7 @@
             {% endfor %}
         </ul>
 
+        <hr>
         <h2 class="flex items-center justify-center h-24">Abonnés</h2>
         <ul class="flex flex-col justify-around items-center gap-2 p-2">
             {% for follower in followers %}
