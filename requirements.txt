@@ -1,5 +1,5 @@
 asgiref==3.8.1
-Django==5.1.4
+Django==5.1.8
 django-mathfilters==1.0.0
 flake8==7.1.1
 mccabe==0.7.0
